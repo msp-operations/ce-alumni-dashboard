@@ -748,26 +748,27 @@ const CE_DATA = {
     
     studentStories: [
         {
-            id: "story-1",
-            name: "[Alumni Name]",
-            photo: "assets/stories/placeholder-biotech.jpg",  // PLACEHOLDER - add real photo
+            id: "story-sarvesh",
+            name: "Sarvesh Kumar",
+            photo: "assets/images/Kumar.jpg",
             concentration: "Sustainable Biotechnology",
             concentrationColor: "#10B981",
+            graduated: 2025,
             location: {
-                city: "[City]",
-                country: "[Country]",
-                coords: [51.9692, 5.6654]  // Update with actual coordinates
+                city: "Wageningen",
+                country: "Netherlands",
+                coords: [51.9692, 5.6654]
             },
-            currentStatus: "[Current Master's Programme]",
-            university: "[University Name]",
-            
+            currentStatus: "MSc Biotechnology",
+            university: "Wageningen University & Research",
+
             // Story details
-            favoriteCoursesAtCE: "[Alumnus would explain their favorite course and why they enjoyed it]",
-            whyCircularEngineering: "[Alumnus would share why they chose Circular Engineering and what drew them to the programme]",
-            thesisTitle: "[Master's thesis title would go here]",
-            
+            favoriteCoursesAtCE: null,
+            whyCircularEngineering: "The integration of science, technology and sustainability was a big reason I chose Circular Engineering. The world is shifting towards sustainability, and I wanted to combine science with circular economy principles to stay ahead of the curve. I also loved that you explore everything in year 1 before specialising. I couldn't decide between chemistry and biotechnology, so I ended up focusing on biotech.",
+            thesisTitle: null,
+
             // Short quote for preview
-            quote: "[A quote from this alumnus about their CE experience would appear here]"
+            quote: "More than enough. I'm actually revisiting topics we already studied in detail during Circular Engineering."
         },
         {
             id: "story-clara",
@@ -795,44 +796,25 @@ const CE_DATA = {
             testimonialUrl: "https://www.maastrichtuniversity.nl/nl/fse-alumni"
         },
         {
-            id: "story-3",
-            name: "[Alumni Name]",
-            photo: "assets/stories/placeholder-physics.jpg",  // PLACEHOLDER - add real photo
+            id: "story-thijs",
+            name: "Thijs Vogely",
+            photo: "assets/images/Vogely.jpg",
             concentration: "Engineering Physics for Sustainable Manufacturing",
             concentrationColor: "#0EA5E9",
+            graduated: 2024,
             location: {
-                city: "[City]",
-                country: "[Country]",
-                coords: [52.0116, 4.3571]  // Update with actual coordinates
+                city: "Delft",
+                country: "Netherlands",
+                coords: [52.0116, 4.3571]
             },
-            currentStatus: "[Current Master's Programme]",
-            university: "[University Name]",
-            
-            favoriteCoursesAtCE: "[Alumnus would explain their favorite course and why they enjoyed it]",
-            whyCircularEngineering: "[Alumnus would share why they chose Circular Engineering and what drew them to the programme]",
-            thesisTitle: "[Master's thesis title would go here]",
-            
-            quote: "[A quote from this alumnus about their CE experience would appear here]"
-        },
-        {
-            id: "story-4",
-            name: "[Alumni Name]",
-            photo: "assets/stories/placeholder-biotech2.jpg",  // PLACEHOLDER - add real photo
-            concentration: "Sustainable Biotechnology",
-            concentrationColor: "#10B981",
-            location: {
-                city: "[City]",
-                country: "[Country]",
-                coords: [38.7223, -9.1393]  // Update with actual coordinates
-            },
-            currentStatus: "[Current Master's Programme]",
-            university: "[University Name]",
-            
-            favoriteCoursesAtCE: "[Alumnus would explain their favorite course and why they enjoyed it]",
-            whyCircularEngineering: "[Alumnus would share why they chose Circular Engineering and what drew them to the programme]",
-            thesisTitle: null,  // Can be null if not applicable
-            
-            quote: "[A quote from this alumnus about their CE experience would appear here]"
+            currentStatus: "MSc Mechanical Engineering",
+            university: "Delft University of Technology",
+
+            favoriteCoursesAtCE: null,
+            whyCircularEngineering: "I was looking for a programme centred on sustainability. Someone told me about the new Circular Engineering programme, an engineering degree taught through the lens of sustainability. It covers a broad range of subjects across both sustainability and technical skills, and that broad foundation naturally leads you to a master's that suits you. For me, that was Mechanical Engineering, specialising in fluid dynamics and heat transfer.",
+            thesisTitle: null,
+
+            quote: "Am I a Circular Engineer? Well, yes, I focus much more on sustainability than peers who did different bachelor's programmes."
         }
     ]
 };
