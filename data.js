@@ -111,6 +111,7 @@ const CE_DATA = {
             shortName: "Mechanical",
             count: 0,
             percentage: 0,
+            note: "New specialisation from 2026, no alumni data yet",
             icon: "cog",
             color: "#8B5CF6",
             description: "Focus on the physical performance, durability, and redesign of products and processes for reuse, repair, and material recovery.",

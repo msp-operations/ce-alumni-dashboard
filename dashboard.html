@@ -1174,7 +1174,15 @@
             font-size: 14px;
             color: var(--gray-500);
         }
-        
+
+        .concentration-note {
+            font-size: 13px;
+            font-style: italic;
+            color: var(--gray-500);
+            margin-top: 6px;
+            line-height: 1.35;
+        }
+
         /* ============================================
            DESTINATIONS SECTION
         ============================================ */
@@ -4443,6 +4451,7 @@
                         <i data-lucide="${conc.icon}"></i>
                     </div>
                     <h3>${conc.name}</h3>
+                    ${conc.note ? `<p class="concentration-note">${conc.note}</p>` : ''}
                     <div class="concentration-count">${conc.count}</div>
                     <p class="concentration-label">alumni</p>
                     <span class="click-hint"><i data-lucide="info"></i> Click for details</span>
@@ -4460,7 +4469,7 @@
             document.getElementById('modalIcon').style.background = `linear-gradient(135deg, ${conc.color}, ${conc.color}dd)`;
             document.getElementById('modalIcon').innerHTML = `<i data-lucide="${conc.icon}"></i>`;
             document.getElementById('modalTitle').textContent = conc.name;
-            document.getElementById('modalStat').textContent = `${conc.count} alumni (${conc.percentage}%)`;
+            document.getElementById('modalStat').textContent = conc.note ? conc.note : `${conc.count} alumni (${conc.percentage}%)`;
             document.getElementById('modalDescription').textContent = conc.description;
             document.getElementById('modalFullDescription').textContent = conc.fullDescription || '';
             
