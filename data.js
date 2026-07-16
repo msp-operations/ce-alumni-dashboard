@@ -769,7 +769,10 @@ const CE_DATA = {
             thesisTitle: null,
 
             // Short quote for preview
-            quote: "More than enough. I'm actually revisiting topics we already studied in detail during Circular Engineering."
+            quote: "More than enough. I'm actually revisiting topics we already studied in detail during Circular Engineering.",
+
+            // External link to the complete testimonial on the FSE alumni website.
+            testimonialUrl: "https://www.maastrichtuniversity.nl/nl/fse-alumni"
         },
         {
             id: "story-clara",
@@ -815,7 +818,10 @@ const CE_DATA = {
             whyCircularEngineering: "I was looking for a programme centred on sustainability. Someone told me about the new Circular Engineering programme, an engineering degree taught through the lens of sustainability. It covers a broad range of subjects across both sustainability and technical skills, and that broad foundation naturally leads you to a master's that suits you. For me, that was Mechanical Engineering, specialising in fluid dynamics and heat transfer.",
             thesisTitle: null,
 
-            quote: "Am I a Circular Engineer? Well, yes, I focus much more on sustainability than peers who did different bachelor's programmes."
+            quote: "Am I a Circular Engineer? Well, yes, I focus much more on sustainability than peers who did different bachelor's programmes.",
+
+            // External link to the complete testimonial on the FSE alumni website.
+            testimonialUrl: "https://www.maastrichtuniversity.nl/nl/fse-alumni"
         }
     ]
 };
