@@ -9,7 +9,7 @@
 // 3. Save the file
 // 4. All pages will automatically reflect the changes
 //
-// NOTE: Also update the meta description in dashboard.html
+// NOTE: Also update the meta description in index.html
 //       (line 8) when you change the summary numbers.
 // ============================================
 
