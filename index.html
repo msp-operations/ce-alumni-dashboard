@@ -40,6 +40,41 @@
   .split-key span { display: inline-flex; align-items: center; gap: 8px; }
   .split-swatch { width: 10px; height: 10px; border-radius: 50%; }
 
+  /* Alumni cards. CE has no separate stories page, so the faces and the full
+     answers live here, as they did on the old homepage. */
+  .alumni-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; }
+  .alum { background: #fff; border: 1px solid var(--hair); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+  .alum-photo { aspect-ratio: 4 / 3; background: rgba(0,28,61,0.05); overflow: hidden; }
+  .alum-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .alum-body { padding: 24px 22px 22px; display: flex; flex-direction: column; gap: 13px; flex: 1; }
+  .alum-name { font-family: var(--serif); font-size: 24px; line-height: 1.1; }
+  .alum-now { font-size: 13.5px; color: var(--ink-60); }
+  .alum-quote { font-family: var(--serif); font-size: 18px; line-height: 1.4; margin: 0; text-wrap: pretty; }
+  .alum-dl { display: flex; flex-direction: column; gap: 11px; margin: 2px 0 0; padding-top: 14px; border-top: 1px solid var(--hair); }
+  .alum-dt { font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-50); margin-bottom: 4px; }
+  .alum-dd { font-size: 14px; line-height: 1.6; color: var(--ink-60); text-wrap: pretty; }
+  .alum-link { margin-top: auto; padding-top: 14px; font-size: 13.5px; font-weight: 600; }
+
+  /* Where each track leads. */
+  .track-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+  .track-card { background: #fff; border: 1px solid var(--hair); border-radius: 16px; padding: 26px 24px; display: flex; flex-direction: column; gap: 14px; }
+  .track-head { display: flex; align-items: center; gap: 10px; }
+  .track-name { font-family: var(--serif); font-size: 19px; line-height: 1.2; }
+  .track-meta { font-size: 13px; color: var(--ink-50); }
+  .track-uni { display: flex; flex-direction: column; gap: 3px; padding: 11px 0; border-top: 1px solid var(--hair); }
+  .track-uni-name { font-size: 14px; font-weight: 600; }
+  .track-progs { font-size: 13px; color: var(--ink-60); line-height: 1.55; }
+
+  /* Regional impact. */
+  .region-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 18px; }
+  .region-card { background: #fff; border: 1px solid var(--hair); border-radius: 14px; padding: 24px 22px; }
+  .region-num { font-family: var(--serif); font-size: 40px; line-height: 1; }
+  .region-pct { font-size: 13px; color: var(--accent); font-weight: 600; margin-left: 6px; }
+  .region-label { font-size: 13.5px; color: var(--ink-60); margin-top: 9px; line-height: 1.5; }
+  .cities { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 28px; }
+  .city-chip { font-size: 13px; font-weight: 500; background: rgba(0,28,61,0.05); border-radius: 999px; padding: 7px 13px; }
+  .city-chip b { font-weight: 700; margin-left: 5px; }
+
   /* Two cohorts only, so the year figures are stated rather than charted. */
   .cohorts { display: flex; flex-wrap: wrap; gap: 44px; }
   .cohort-num { font-family: var(--serif); font-size: 52px; line-height: 1; color: #fff; }
@@ -110,12 +145,33 @@
 <section class="section wrap" id="stories">
   <div class="sec-head">
     <div>
-      <div class="eyebrow eyebrow-orange">Alumni stories</div>
+      <div class="eyebrow eyebrow-orange">Meet our alumni</div>
       <h2>Three paths out of the same programme.</h2>
     </div>
-    <a class="sec-link" href="community.html">Join them &rarr;</a>
+    <a class="sec-link" href="community.html">Tell us yours &rarr;</a>
   </div>
-  <div class="stories" id="story-list"></div>
+  <div class="alumni-grid" id="story-list"></div>
+</section>
+
+<section class="section wrap" id="tracks">
+  <div class="sec-head">
+    <div>
+      <div class="eyebrow eyebrow-blue">Where each track leads</div>
+      <h2>Every concentration opens its own doors.</h2>
+    </div>
+    <div class="panel-note">Master's programmes CE graduates went on to, grouped by the concentration they took.</div>
+  </div>
+  <div class="track-grid" id="track-list"></div>
+</section>
+
+<section class="section wrap" id="region">
+  <div class="lead">
+    <div class="eyebrow eyebrow-orange">Regional impact</div>
+    <h2>A Euregio programme, and it shows.</h2>
+    <p id="region-lead"></p>
+  </div>
+  <div class="region-grid" id="region-list"></div>
+  <div class="cities" id="city-list"></div>
 </section>
 
 <section class="section wrap" id="concentrations">

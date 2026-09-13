@@ -82,17 +82,41 @@
     if (storyWrap && D.studentStories) {
         storyWrap.innerHTML = D.studentStories.map(function (s) {
             var place = s.location ? (s.location.city + ', ' + s.location.country) : '';
-            var role = [s.currentStatus, s.university].filter(Boolean).join(' &middot; ');
+            var now = [s.currentStatus, s.university].filter(Boolean).join(' &middot; ');
+
+            // Not every record has every answer, so each row is optional.
+            var detail = [
+                row('Why Circular Engineering', s.whyCircularEngineering),
+                row('Thesis', s.thesisTitle),
+                row('Favourite courses at CE', s.favoriteCoursesAtCE)
+            ].filter(Boolean).join('');
+
             return '' +
-                '<a class="story" href="community.html">' +
-                  '<span class="chip">' + esc(s.concentration || '') + '</span>' +
-                  '<p class="story-quote">&ldquo;' + esc(trimQuote(s.quote)) + '&rdquo;</p>' +
-                  '<span class="story-by">' +
-                    '<span class="story-name">' + esc(s.name) + '</span>' +
-                    '<span class="story-role">' + role + (place ? ' &middot; ' + esc(place) : '') + '</span>' +
-                  '</span>' +
-                '</a>';
+                '<article class="alum">' +
+                  (s.photo ? '<div class="alum-photo"><img src="' + esc(s.photo) + '" alt="' + esc(s.name) +
+                             '" loading="lazy" onerror="this.closest(\'.alum-photo\').remove()" /></div>' : '') +
+                  '<div class="alum-body">' +
+                    '<span class="chip" style="background:' + hexToSoft(s.concentrationColor) + '">' +
+                      esc(s.concentration || '') + '</span>' +
+                    '<div>' +
+                      '<div class="alum-name">' + esc(s.name) + '</div>' +
+                      '<div class="alum-now">' + now + (place ? ' &middot; ' + esc(place) : '') +
+                        (s.graduated ? ' &middot; class of ' + s.graduated : '') + '</div>' +
+                    '</div>' +
+                    '<p class="alum-quote">&ldquo;' + esc(cleanQuote(s.quote)) + '&rdquo;</p>' +
+                    (detail ? '<div class="alum-dl">' + detail + '</div>' : '') +
+                    (s.testimonialUrl
+                      ? '<a class="alum-link" href="' + esc(s.testimonialUrl) + '" target="_blank" rel="noopener">Read the full testimonial &rarr;</a>'
+                      : '') +
+                  '</div>' +
+                '</article>';
         }).join('');
+    }
+
+    function row(label, value) {
+        if (!value) return '';
+        return '<div><div class="alum-dt">' + label + '</div>' +
+               '<div class="alum-dd">' + esc(value) + '</div></div>';
     }
 
     /* ----------------------------------------------------------------
@@ -119,6 +143,74 @@
 
         set('conc-lead', 'Every CE student picks one of four concentrations. ' +
             numWord(withGrads.length) + ' of the four have produced graduates so far; the programme is young enough that the fourth has not yet.');
+    }
+
+    /* ----------------------------------------------------------------
+       5b. Where each track leads
+       Which master's programmes each concentration fed into. Only tracks
+       with graduates appear, so the empty concentration is not shown here.
+       ---------------------------------------------------------------- */
+    var trackWrap = el('track-list');
+    if (trackWrap && D.concentrationPathways) {
+        var tracks = Object.keys(D.concentrationPathways);
+        trackWrap.innerHTML = tracks.map(function (name) {
+            var t = D.concentrationPathways[name];
+            if (!t || !t.total) return '';
+            var unis = (t.universities || []).slice(0, 4).map(function (u) {
+                return '<div class="track-uni">' +
+                         '<span class="track-uni-name">' + esc(u.name) + (u.count > 1 ? ' &middot; ' + u.count : '') + '</span>' +
+                         (u.programmes && u.programmes.length
+                           ? '<span class="track-progs">' + esc(u.programmes.join(', ')) + '</span>' : '') +
+                       '</div>';
+            }).join('');
+            return '' +
+                '<div class="track-card">' +
+                  '<div class="track-head">' +
+                    '<span class="conc-dot" style="background:' + esc(t.color || '#10B981') + '"></span>' +
+                    '<span class="track-name">' + esc(name) + '</span>' +
+                  '</div>' +
+                  '<span class="track-meta">' + t.total + ' graduates continued to a master’s' +
+                    (t.percentOfTrack ? ', ' + t.percentOfTrack + '% of the track' : '') + '</span>' +
+                  unis +
+                '</div>';
+        }).join('');
+    }
+
+    /* ----------------------------------------------------------------
+       5c. Regional impact
+       CE is a Euregio programme, so where graduates stay matters to the
+       faculty as much as where they scatter.
+       ---------------------------------------------------------------- */
+    var R = D.regionalData;
+    if (R && el('region-list')) {
+        var cards = [
+            ['stayInMaastricht', 'still in Maastricht'],
+            ['limburgImpact', 'working or studying in Limburg'],
+            ['euregioImpact', 'active in the Euregio Meuse-Rhine'],
+            ['stayInNetherlands', 'still in the Netherlands']
+        ];
+        el('region-list').innerHTML = cards.map(function (c) {
+            var n = R[c[0]], p = R[c[0] + 'Percent'];
+            if (n == null) return '';
+            return '<div class="region-card">' +
+                     '<span class="region-num">' + n + '</span>' +
+                     (p != null ? '<span class="region-pct">' + p + '%</span>' : '') +
+                     '<div class="region-label">' + c[1] + '</div>' +
+                   '</div>';
+        }).join('');
+
+        if (el('region-lead') && R.euregioOrigin != null) {
+            set('region-lead', R.euregioOrigin + ' of the ' + S.totalAlumni +
+                ' graduates came from the Euregio Meuse-Rhine to begin with, ' +
+                R.euregioOriginPercent + '%. Of everyone who has graduated, ' +
+                R.euregioImpact + ' are still working or studying in the region.');
+        }
+    }
+
+    if (el('city-list') && D.topCities) {
+        el('city-list').innerHTML = D.topCities.map(function (c) {
+            return '<span class="city-chip">' + esc(c.name) + '<b>' + c.count + '</b></span>';
+        }).join('');
     }
 
     /* ----------------------------------------------------------------
@@ -225,6 +317,18 @@
         return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
             return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
         });
+    }
+
+    // Concentration colours as a soft chip background.
+    function hexToSoft(hex) {
+        if (!/^#[0-9a-f]{6}$/i.test(hex || "")) return "rgba(0, 28, 61, 0.06)";
+        var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+        return "rgba(" + r + ", " + g + ", " + b + ", 0.13)";
+    }
+
+    // Quotes carry their own surrounding punctuation in data.js.
+    function cleanQuote(q) {
+        return String(q || "").replace(/^["201c]|["201d]$/g, "").trim();
     }
 
     // Quotes in data.js run long; the card holds roughly this much.
