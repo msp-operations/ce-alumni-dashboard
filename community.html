@@ -10,7 +10,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
@@ -44,8 +44,8 @@
             --gray-600: #4b5563;
             --gray-800: #1f2937;
             
-            --font-heading: 'Outfit', sans-serif;
-            --font-body: 'DM Sans', sans-serif;
+            --font-heading: var(--font-display);
+            --font-body: var(--font-body);
             
             --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.04);
             --shadow-md: 0 4px 12px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06);
@@ -693,6 +693,7 @@
             .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
         }
     </style>
+    <link rel="stylesheet" href="ce-restyle.css">
 </head>
 <body>
     <!-- Header -->
