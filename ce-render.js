@@ -49,6 +49,12 @@
        2. Headline figures
        ---------------------------------------------------------------- */
     var S = D.summary;
+    // Destinations, concentrations, gender and employment are only known for the
+    // classes that have returned a graduation form. Denominators for those sections
+    // come from profiledAlumni, never from the headline total.
+    var profiled = S.profiledAlumni || S.totalAlumni;
+    var profiledScope = S.profiledAlumni && S.profiledAlumni !== S.totalAlumni
+        ? ' of the 2024 and 2025 classes' : '';
     set('hero-total', fmt(S.totalAlumni));
     set('stat-alumni', fmt(S.totalAlumni));
     set('stat-nationalities', fmt(S.nationalities));
@@ -142,7 +148,8 @@
         }).join('');
 
         set('conc-lead', 'Every CE student picks one of four concentrations. ' +
-            numWord(withGrads.length) + ' of the four have produced graduates so far; the programme is young enough that the fourth has not yet.');
+            cap(numWord(withGrads.length)) + ' of the four have produced graduates so far; the programme is young enough that the fourth has not yet.' +
+            (profiledScope ? ' The counts cover the ' + profiled + ' graduates' + profiledScope + '.' : ''));
     }
 
     /* ----------------------------------------------------------------
@@ -200,8 +207,8 @@
         }).join('');
 
         if (el('region-lead') && R.euregioOrigin != null) {
-            set('region-lead', R.euregioOrigin + ' of the ' + S.totalAlumni +
-                ' graduates came from the Euregio Meuse-Rhine to begin with, ' +
+            set('region-lead', R.euregioOrigin + ' of the ' + profiled +
+                ' graduates' + profiledScope + ' came from the Euregio Meuse-Rhine to begin with, ' +
                 R.euregioOriginPercent + '%. Of everyone who has graduated, ' +
                 R.euregioImpact + ' are still working or studying in the region.');
         }
@@ -289,9 +296,10 @@
         set('status-title', emp.studying > emp.working
             ? 'Most are still studying.'
             : 'Most are already working.');
-        set('status-note', 'Of ' + total + ' graduates we have a current status for, ' +
+        set('status-note', 'Of the ' + total + ' graduates' + profiledScope + ', ' +
             Math.round(emp.studying / total * 100) + '% are in a master’s or doctorate and ' +
-            Math.round(emp.working / total * 100) + '% are in work.');
+            Math.round(emp.working / total * 100) + '% are in work. ' +
+            (profiledScope ? 'The class of 2026 graduated this summer; we are collecting where they went.' : ''));
     }
 
     if (el('cohort-list') && years.length) {
@@ -308,6 +316,8 @@
         fmt(S.totalAlumni) + ' records.');
 
     /* ---- helpers ---- */
+
+    function cap(w) { return w.charAt(0).toUpperCase() + w.slice(1); }
 
     function numWord(n) {
         return ['zero','one','two','three','four'][n] || String(n);

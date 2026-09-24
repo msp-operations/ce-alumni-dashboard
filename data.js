@@ -1,7 +1,16 @@
 // ============================================
 // CE ALUMNI DATA - SINGLE SOURCE OF TRUTH
 // ============================================
-// Last updated: January 2025
+// Last updated: September 2026
+//
+// TWO POPULATIONS LIVE IN THIS FILE, KEEP THEM STRAIGHT:
+//   summary.totalAlumni    = every CE graduate (83), the three classes of 2024, 2025 and 2026.
+//   summary.profiledAlumni = the 46 graduates of 2024 and 2025 whose destinations we hold.
+// Everything below about countries, cities, universities, concentrations, gender and
+// employment describes those 46. The class of 2026 (37 people, AY25-26 diploma export,
+// 24 Sep 2026) is counted in the total and in graduationByYear, and nothing else, because
+// its graduation-form round has not been collected. Fold it into the rest of the figures
+// once the destinations arrive, then raise profiledAlumni to match.
 // 
 // HOW TO UPDATE:
 // 1. Scroll to the section you need to update
@@ -22,16 +31,20 @@
 
 const CE_DATA = {
 
+    // Shown in the footer line under the map.
+    lastUpdated: "September 2026",
+
     // =========================================
     // SECTION 1: SUMMARY STATISTICS
     // =========================================
     // These appear in the hero sections across all pages
     
     summary: {
-        totalAlumni: 46,           // Total number of CE graduates
+        totalAlumni: 83,           // Every CE graduate: 13 + 33 + 37
+        profiledAlumni: 46,        // The 2024 and 2025 classes, the ones with destinations on file
         nationalities: 15,         // Number of different nationalities
         countriesLivingIn: 10,     // Countries where alumni currently live
-        universitiesAttended: 22,  // Master's universities attended
+        universitiesAttended: 21,  // Master's universities attended (matches topUniversities)
         programmeStartYear: 2021,  // Year CE programme started
         firstGraduationYear: 2024  // Year of first graduating class
     },
@@ -44,8 +57,9 @@ const CE_DATA = {
     
     graduationByYear: [
         { year: 2024, count: 13 },
-        { year: 2025, count: 33 }
-        // { year: 2026, count: ?? },  // <-- Add future years here
+        { year: 2025, count: 33 },
+        { year: 2026, count: 37 }   // AY25-26 SAP diploma export, 24 Sep 2026
+        // { year: 2027, count: ?? },  // <-- Add future years here
     ],
 
 
