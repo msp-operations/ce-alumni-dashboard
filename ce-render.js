@@ -160,11 +160,16 @@
     var trackWrap = el('track-list');
     if (trackWrap && D.concentrationPathways) {
         var tracks = Object.keys(D.concentrationPathways);
+        // logo file per university, from the same list the destinations section uses
+        var logoOf = {};
+        (D.topUniversities || []).forEach(function (u) { if (u.logo) logoOf[u.name] = u.logo; });
         trackWrap.innerHTML = tracks.map(function (name) {
             var t = D.concentrationPathways[name];
             if (!t || !t.total) return '';
             var unis = (t.universities || []).slice(0, 4).map(function (u) {
                 return '<div class="track-uni">' +
+                         (logoOf[u.name]
+                           ? '<img class="track-logo" src="assets/logos/' + esc(logoOf[u.name]) + '" alt="" aria-hidden="true">' : '') +
                          '<span class="track-uni-name">' + esc(u.name) + (u.count > 1 ? ' &middot; ' + u.count : '') + '</span>' +
                          (u.programmes && u.programmes.length
                            ? '<span class="track-progs">' + esc(u.programmes.join(', ')) + '</span>' : '') +

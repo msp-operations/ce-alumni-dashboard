@@ -21,6 +21,13 @@
 
   /* The four concentrations. One of them has no graduates yet, so the card
      has an explicit empty state rather than a bar of zero width. */
+  /* Faded university mark behind each pathway row. Greyed and light, so it reads as
+     texture at a glance and as the logo on a second look; the text sits above it. */
+  .track-uni { position: relative; overflow: hidden; }
+  .track-uni > span { position: relative; z-index: 1; }
+  .track-logo { position: absolute; right: 6px; top: 50%; height: 72%; max-width: 38%; width: auto;
+                transform: translateY(-50%); object-fit: contain; opacity: .13; filter: grayscale(1);
+                pointer-events: none; user-select: none; }
   .conc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
   .conc { background: #fff; border: 1px solid var(--hair); border-radius: 16px; padding: 26px 24px 24px; display: flex; flex-direction: column; gap: 12px; }
   .conc-dot { width: 10px; height: 10px; border-radius: 50%; display: block; }
