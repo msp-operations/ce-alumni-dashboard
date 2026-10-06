@@ -5,164 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy | CE Alumni Network</title>
     <link rel="icon" type="image/png" href="assets/logos/ce-logo.png">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    
+
+    <!-- Shared MSP frame: sidebar, tokens, type (self-hosted fonts) -->
+    <link rel="stylesheet" href="assets/msp-ui/msp-ui.css">
+
     <style>
         :root {
-            --um-dark-blue: #001C3D;
+            --um-dark-blue: var(--msp-navy);
             --um-light-blue: #00A2DB;
             --ce-green-primary: #10B981;
             --ce-green-light: #34D399;
             --ce-green-dark: #059669;
             --um-white: #FFFFFF;
-            --um-gray-50: #f8fafc;
-            --um-gray-100: #f1f5f9;
-            --um-gray-200: #e2e8f0;
-            --um-gray-500: #64748b;
-            --um-gray-600: #475569;
-            
-            --font-heading: var(--font-display);
-            --font-body: var(--font-body);
-            
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-            --radius-md: 12px;
-            --radius-lg: 20px;
+            --um-gray-50: var(--msp-g0);
+            --um-gray-100: var(--msp-g1);
+            --um-gray-200: var(--msp-g2);
+            --um-gray-500: var(--msp-g5);
+            --um-gray-600: var(--msp-g7);
+
+            --font-heading: var(--msp-font-display);
+            --font-body: var(--msp-font);
+
+            --shadow-md: var(--msp-sh);
+            --radius-md: var(--msp-r);
+            --radius-lg: var(--msp-r);
         }
-        
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--font-body); font-size: 16px; line-height: 1.7; color: var(--um-dark-blue); background: var(--um-gray-50); }
-        h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.2; letter-spacing: -0.02em; }
-        a { color: var(--ce-green-primary); text-decoration: none; }
-        a:hover { color: var(--ce-green-dark); }
-        
-        /* Header */
-        header {
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--um-gray-200);
-            padding: 0 50px;
-            height: 72px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-        }
-        .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-        .logo-img { height: 44px; }
-        .logo-text h1 { font-size: 15px; font-weight: 700; color: var(--um-dark-blue); margin: 0; }
-        .logo-text p { font-size: 11px; color: var(--um-gray-500); margin: 0; }
-        .header-nav { display: flex; gap: 6px; }
-        .header-nav a { font-size: 14px; font-weight: 500; padding: 10px 18px; border-radius: 8px; color: var(--um-gray-600); }
-        .header-nav a:hover { background: var(--um-gray-100); color: var(--um-dark-blue); }
-        .header-nav .btn-cta { background: linear-gradient(135deg, var(--ce-green-primary), var(--ce-green-dark)); color: white; margin-left: 12px; }
-        .header-nav .btn-cta:hover { background: linear-gradient(135deg, var(--ce-green-dark), #047857); }
-        
-        /* Content */
-        .content-wrapper {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 120px 50px 80px;
-        }
-        .content-card {
-            background: white;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            padding: 50px 60px;
-        }
-        h1 { font-size: 36px; font-weight: 700; color: var(--um-dark-blue); margin-bottom: 10px; }
-        .subtitle { color: var(--um-gray-500); font-size: 15px; margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid var(--um-gray-200); }
-        
-        h2 { font-size: 20px; font-weight: 700; color: var(--um-dark-blue); margin: 40px 0 15px; }
-        h2:first-of-type { margin-top: 0; }
-        h3 { font-size: 16px; font-weight: 600; color: var(--um-gray-600); margin: 25px 0 10px; }
-        p { margin-bottom: 15px; }
-        ul, ol { margin: 15px 0 15px 25px; }
-        li { margin-bottom: 8px; }
-        
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
-        th, td { text-align: left; padding: 12px 15px; border: 1px solid var(--um-gray-200); }
-        th { background: var(--um-gray-50); font-weight: 600; }
-        
-        .highlight {
-            background: rgba(16, 185, 129, 0.08);
-            border-left: 3px solid var(--ce-green-primary);
-            padding: 15px 20px;
-            margin: 20px 0;
-            font-size: 15px;
-        }
-        .contact-box {
-            background: linear-gradient(135deg, var(--um-dark-blue), #002a5c);
-            color: white;
-            padding: 25px 30px;
-            border-radius: var(--radius-md);
-            margin: 30px 0;
-        }
-        .contact-box h3 { color: white; margin-top: 0; }
-        .contact-box a { color: var(--ce-green-light); }
-        
-        .address-block {
-            background: var(--um-gray-50);
-            padding: 20px;
-            border-radius: var(--radius-md);
-            margin: 15px 0;
-            font-size: 15px;
-            line-height: 1.8;
-        }
-        
-        /* Footer */
-        footer {
-            background: linear-gradient(165deg, var(--um-dark-blue), #00101f);
-            color: white;
-            padding: 40px 50px;
-            text-align: center;
-        }
-        .footer-links { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; flex-wrap: wrap; }
-        .footer-links a { color: rgba(255,255,255,0.7); font-size: 14px; }
-        .footer-links a:hover { color: var(--ce-green-light); }
-        .footer-copyright { color: rgba(255,255,255,0.5); font-size: 13px; }
-        
-        @media (max-width: 768px) {
-            header { padding: 0 20px; }
-            .header-nav { display: none; }
-            .content-wrapper { padding: 100px 20px 60px; }
-            .content-card { padding: 30px; }
-            h1 { font-size: 28px; }
-            .footer-links { gap: 20px; }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        /* Content card */
+        .content-card { background: #fff; border: 1px solid var(--um-gray-200); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); padding: 32px 36px; font-size: 14px; line-height: 1.7; color: var(--um-gray-600); }
+        .content-card h2 { font-size: 17px; font-weight: 700; margin: 30px 0 10px; }
+        .content-card h2:first-child { margin-top: 0; }
+        .content-card h3 { font-size: 13.5px; font-weight: 600; margin: 18px 0 8px; }
+        .content-card p { margin: 0 0 12px; }
+        .content-card ul, .content-card ol { margin: 10px 0 14px; padding-left: 22px; }
+        .content-card li { margin-bottom: 6px; }
+        .content-card a { color: var(--um-dark-blue); text-decoration: underline; text-decoration-color: var(--um-gray-200); text-underline-offset: 2px; }
+        .content-card a:hover { text-decoration-color: var(--um-dark-blue); }
+
+        table { width: 100%; border-collapse: collapse; margin: 14px 0 18px; font-size: 13px; }
+        th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--um-gray-100); vertical-align: top; }
+        th { background: var(--um-gray-50); font-size: 10px; font-weight: 700; color: var(--msp-g4); text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 2px solid var(--um-gray-200); }
+        tr:last-child td { border-bottom: none; }
+
+        .highlight { background: var(--msp-ok-bg); border: 1px solid var(--msp-ok-bd); border-left: 3px solid var(--ce-green-primary); border-radius: 0 var(--msp-rs) var(--msp-rs) 0; padding: 12px 16px; margin: 16px 0; font-size: 13.5px; color: var(--msp-ok); }
+        .contact-box { background: var(--um-dark-blue); color: #fff; padding: 20px 24px; border-radius: var(--radius-md); margin: 24px 0; }
+        .contact-box h3 { color: #fff; margin-top: 0; }
+        .contact-box p { margin-bottom: 6px; }
+        .contact-box p:last-child { margin-bottom: 0; }
+        .contact-box a { color: var(--ce-green-light); text-decoration: none; }
+        .address-block { background: var(--um-gray-50); border: 1px solid var(--um-gray-200); padding: 14px 18px; border-radius: var(--radius-md); margin: 12px 0 14px; font-size: 13.5px; line-height: 1.8; }
+
+        /* ---- Page footer: links the sidebar does not carry ---- */
+        .msp-footer .foot-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 6px; }
+        .msp-footer a { text-decoration: none; }
+        .msp-footer a:hover { text-decoration: underline; }
+        /* kit: .msp-content a (0,1,1) outranks .msp-btn-* colours, restore them */
+        .msp-content a.msp-btn-or, .msp-content a.msp-btn-navy, .msp-content a.msp-btn-or:hover, .msp-content a.msp-btn-navy:hover { color: #fff; }
+        .msp-content a.msp-btn-sky { color: var(--msp-inf); }
+        .msp-content a.msp-btn-gh { color: var(--msp-g5); }
+        .msp-content .uni-modal-header .uni-modal-name, .msp-content .um-link-card.featured .um-link-title { color: #fff; }
+
+        @media (max-width: 640px) {
+            .content-card { padding: 22px 18px; }
         }
     </style>
-    <link rel="stylesheet" href="ce-restyle.css">
 </head>
 <body>
-    <header id="header">
-        <a href="index.html" class="logo">
-            <img src="assets/logos/ce-logo.png" alt="CE Logo" class="logo-img">
-            <div class="logo-text">
-                <h1>CE Alumni Network</h1>
-                <p>Faculty of Science and Engineering</p>
-            </div>
-        </a>
-        <nav class="header-nav">
-            <a href="index.html">Home</a>
-            <a href="community.html">Community</a>
-            <a href="considering-ce.html" class="btn-cta">Considering CE?</a>
-        </nav>
-    </header>
-
-    <div class="content-wrapper">
-        <div class="content-card">
+    <main class="msp-main">
+        <div class="msp-page-head">
             <h1>CE Alumni Network Privacy Policy</h1>
             <p class="subtitle">Last updated: January 2025</p>
-            
+        </div>
+
+        <div class="content-card">
             <h2>Introduction</h2>
             <p>Your privacy is important to the Circular Engineering programme (CE) at Maastricht University. This privacy policy explains how we collect, use, and protect your personal data through the CE Alumni Network website and related activities.</p>
             <p>The CE Alumni Network operates under the umbrella of Maastricht University's alumni engagement activities. For UM's general privacy practices, please refer to the <a href="https://www.maastrichtuniversity.nl/privacy" target="_blank">UM General Privacy Statement</a>.</p>
@@ -293,18 +210,32 @@
                 <li>File a complaint with the <a href="https://autoriteitpersoonsgegevens.nl" target="_blank">Dutch Data Protection Authority (Autoriteit Persoonsgegevens)</a></li>
             </ol>
         </div>
-    </div>
+    </main>
 
-    <footer>
-        <div class="footer-links">
+    <footer class="msp-footer">
+        <div class="foot-links">
             <a href="index.html">Home</a>
             <a href="community.html">Community</a>
             <a href="considering-ce.html">Considering CE?</a>
             <a href="privacy.html">Privacy Policy</a>
         </div>
-        <p class="footer-copyright">(c) 2025 Circular Engineering  -  Faculty of Science and Engineering  -  Maastricht University</p>
+        (c) 2025 Circular Engineering  -  Faculty of Science and Engineering  -  Maastricht University
     </footer>
-    
-    <script>lucide.createIcons();</script>
+
+    <script src="assets/msp-ui/msp-shell.js"></script>
+    <script>
+        MSPShell.init({
+            title: 'CE Alumni Network',
+            subtitle: 'Circular Engineering<br>Maastricht University',
+            nav: [
+                { label: 'Home',            hint: 'The alumni dashboard',     href: 'index.html',          icon: 'globe' },
+                { label: 'Community',       hint: 'Stay connected',           href: 'community.html',      icon: 'users' },
+                { label: 'Considering CE?', hint: 'For prospective students', href: 'considering-ce.html', icon: 'gradcap' },
+                { divider: true },
+                { label: 'Privacy',         hint: 'How we handle your data',  href: 'privacy.html',        icon: 'shield' }
+            ],
+            footer: 'Aggregated, anonymised statistics. Individual alumni appear only with their consent.'
+        });
+    </script>
 </body>
 </html>

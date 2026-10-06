@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>CE Alumni Network</title>
 <meta name="description" content="Every Circular Engineering graduate since the first cohort, mapped: the countries they live in, the universities they continued at, and the work they do now." />
-<meta name="theme-color" content="#001C3D" />
+<meta name="theme-color" content="#011B3C" />
 <link rel="icon" type="image/png" href="assets/logos/ce-logo.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin" />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<!-- Shared MSP frame: sidebar, tokens, type (self-hosted fonts) -->
+<link rel="stylesheet" href="assets/msp-ui/msp-ui.css" />
 <link rel="stylesheet" href="ce-redesign.css" />
 
 <!-- Map geometry: d3-geo + Natural Earth TopoJSON (pinned, hash-verified) -->
@@ -17,10 +17,10 @@
 <script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
 
 <style>
-  /* Page-specific pieces that do not exist on the MSP site. */
+  /* Page-specific pieces that do not exist on the MSP site. The frame, canvas,
+     type and tokens come from assets/msp-ui/msp-ui.css; the dashboard's shared
+     components (hero map, stat strip, bars, rows) live in ce-redesign.css. */
 
-  /* The four concentrations. One of them has no graduates yet, so the card
-     has an explicit empty state rather than a bar of zero width. */
   /* Faded university mark behind each pathway row. Greyed and light, so it reads as
      texture at a glance and as the logo on a second look; the text sits above it. */
   .track-uni { position: relative; overflow: hidden; }
@@ -28,90 +28,83 @@
   .track-logo { position: absolute; left: 50%; top: 50%; height: 78%; max-width: 46%; width: auto;
                 transform: translate(-50%, -50%); object-fit: contain; opacity: .12; filter: grayscale(1);
                 pointer-events: none; user-select: none; }
-  .conc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
-  .conc { background: #fff; border: 1px solid var(--hair); border-radius: 16px; padding: 26px 24px 24px; display: flex; flex-direction: column; gap: 12px; }
+
+  /* The four concentrations. One of them has no graduates yet, so the card
+     has an explicit empty state rather than a bar of zero width. */
+  .conc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .conc { background: #fff; border: 1px solid var(--hair); border-radius: var(--msp-r); box-shadow: var(--msp-sh); padding: 20px 22px; display: flex; flex-direction: column; gap: 10px; }
   .conc-dot { width: 10px; height: 10px; border-radius: 50%; display: block; }
-  .conc-name { font-size: 19px; line-height: 1.2; font-family: var(--serif); }
+  .conc-name { font-size: 15px; line-height: 1.25; font-weight: 600; }
   .conc-count { display: flex; align-items: baseline; gap: 8px; }
-  .conc-num { font-family: var(--serif); font-size: 38px; line-height: 1; }
-  .conc-share { font-size: 13px; color: var(--ink-50); }
-  .conc-desc { font-size: 14px; line-height: 1.6; color: var(--ink-60); margin: 0; text-wrap: pretty; }
-  .conc-empty { font-size: 13.5px; font-weight: 600; color: var(--accent); }
+  .conc-num { font-family: var(--serif); font-size: 30px; font-weight: 700; line-height: 1; color: var(--navy); }
+  .conc-share { font-size: 12.5px; color: var(--ink-50); }
+  .conc-desc { font-size: 13px; line-height: 1.6; color: var(--ink-60); margin: 0; text-wrap: pretty; }
+  .conc-empty { font-size: 12.5px; font-weight: 600; color: var(--accent); }
 
   /* Studying vs working. Two numbers, so a split bar reads better than a chart. */
   .split-stat { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px; align-items: center; }
-  .split-bar { display: flex; height: 14px; border-radius: 999px; overflow: hidden; background: rgba(0,28,61,0.07); }
+  .split-bar { display: flex; height: 12px; border-radius: 999px; overflow: hidden; background: rgba(255,255,255,0.12); }
   .split-bar span { display: block; height: 100%; }
-  /* Sits inside the navy band, so the key has to be light, not --ink-60. */
-  .split-key { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 18px; font-size: 13.5px; color: rgba(255,255,255,0.72); }
+  /* Sits inside the navy card, so the key has to be light, not --ink-60. */
+  .split-key { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px; font-size: 13px; color: rgba(255,255,255,0.75); }
   .split-key span { display: inline-flex; align-items: center; gap: 8px; }
   .split-swatch { width: 10px; height: 10px; border-radius: 50%; }
 
   /* Alumni cards. CE has no separate stories page, so the faces and the full
      answers live here, as they did on the old homepage. */
-  .alumni-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; }
-  .alum { background: #fff; border: 1px solid var(--hair); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
-  .alum-photo { aspect-ratio: 4 / 3; background: rgba(0,28,61,0.05); overflow: hidden; }
+  .alumni-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .alum { background: #fff; border: 1px solid var(--hair); border-radius: var(--msp-r); box-shadow: var(--msp-sh); overflow: hidden; display: flex; flex-direction: column; transition: box-shadow .2s; }
+  .alum:hover { box-shadow: var(--msp-sh-md); }
+  .alum-photo { aspect-ratio: 4 / 3; background: var(--msp-g1); overflow: hidden; }
   .alum-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .alum-body { padding: 24px 22px 22px; display: flex; flex-direction: column; gap: 13px; flex: 1; }
-  .alum-name { font-family: var(--serif); font-size: 24px; line-height: 1.1; }
-  .alum-now { font-size: 13.5px; color: var(--ink-60); }
-  .alum-quote { font-family: var(--serif); font-size: 18px; line-height: 1.4; margin: 0; text-wrap: pretty; }
-  .alum-dl { display: flex; flex-direction: column; gap: 11px; margin: 2px 0 0; padding-top: 14px; border-top: 1px solid var(--hair); }
-  .alum-dt { font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-50); margin-bottom: 4px; }
-  .alum-dd { font-size: 14px; line-height: 1.6; color: var(--ink-60); text-wrap: pretty; }
-  .alum-link { margin-top: auto; padding-top: 14px; font-size: 13.5px; font-weight: 600; }
+  .alum-body { padding: 20px 20px 18px; display: flex; flex-direction: column; gap: 11px; flex: 1; }
+  .alum-name { font-family: var(--serif); font-size: 18px; font-weight: 700; line-height: 1.15; }
+  .alum-now { font-size: 12.5px; color: var(--ink-50); margin-top: 3px; }
+  .alum-quote { font-size: 14px; line-height: 1.55; margin: 0; color: var(--msp-g7); font-style: italic; text-wrap: pretty; }
+  .alum-dl { display: flex; flex-direction: column; gap: 10px; margin: 2px 0 0; padding-top: 12px; border-top: 1px solid var(--msp-g1); }
+  .alum-dt { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--msp-g4); margin-bottom: 3px; }
+  .alum-dd { font-size: 13px; line-height: 1.6; color: var(--ink-60); text-wrap: pretty; }
+  .alum-link { margin-top: auto; padding-top: 12px; font-size: 13px; font-weight: 600; }
 
   /* Where each track leads. */
-  .track-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
-  .track-card { background: #fff; border: 1px solid var(--hair); border-radius: 16px; padding: 26px 24px; display: flex; flex-direction: column; gap: 14px; }
+  .track-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .track-card { background: #fff; border: 1px solid var(--hair); border-radius: var(--msp-r); box-shadow: var(--msp-sh); padding: 20px 22px; display: flex; flex-direction: column; gap: 10px; }
   .track-head { display: flex; align-items: center; gap: 10px; }
-  .track-name { font-family: var(--serif); font-size: 19px; line-height: 1.2; }
-  .track-meta { font-size: 13px; color: var(--ink-50); }
-  .track-uni { display: flex; flex-direction: column; gap: 3px; padding: 11px 0; border-top: 1px solid var(--hair); }
-  .track-uni-name { font-size: 14px; font-weight: 600; }
-  .track-progs { font-size: 13px; color: var(--ink-60); line-height: 1.55; }
+  .track-name { font-size: 15px; font-weight: 600; line-height: 1.25; }
+  .track-meta { font-size: 12.5px; color: var(--ink-50); }
+  .track-uni { display: flex; flex-direction: column; gap: 2px; padding: 10px 0; border-top: 1px solid var(--msp-g1); }
+  .track-uni-name { font-size: 13.5px; font-weight: 600; }
+  .track-progs { font-size: 12.5px; color: var(--ink-60); line-height: 1.5; }
 
   /* Regional impact. */
-  .region-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 18px; }
-  .region-card { background: #fff; border: 1px solid var(--hair); border-radius: 14px; padding: 24px 22px; }
-  .region-num { font-family: var(--serif); font-size: 40px; line-height: 1; }
-  .region-pct { font-size: 13px; color: var(--accent); font-weight: 600; margin-left: 6px; }
-  .region-label { font-size: 13.5px; color: var(--ink-60); margin-top: 9px; line-height: 1.5; }
-  .cities { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 28px; }
-  .city-chip { font-size: 13px; font-weight: 500; background: rgba(0,28,61,0.05); border-radius: 999px; padding: 7px 13px; }
-  .city-chip b { font-weight: 700; margin-left: 5px; }
+  .region-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+  .region-card { background: #fff; border: 1px solid var(--hair); border-radius: var(--msp-r); box-shadow: var(--msp-sh); padding: 20px 22px; }
+  .region-num { font-family: var(--serif); font-size: 32px; font-weight: 700; line-height: 1; color: var(--navy); }
+  .region-pct { font-size: 12.5px; color: var(--accent); font-weight: 700; margin-left: 6px; }
+  .region-label { font-size: 13px; color: var(--ink-60); margin-top: 8px; line-height: 1.5; }
+  .cities { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+  .city-chip { font-size: 12px; font-weight: 600; background: #fff; border: 1.5px solid var(--hair); color: var(--ink-50); border-radius: 20px; padding: 5px 12px; }
+  .city-chip b { font-weight: 700; color: var(--navy); margin-left: 5px; }
 
   /* Three cohorts only, so the year figures are stated rather than charted. */
-  .cohorts { display: flex; flex-wrap: wrap; gap: 44px; }
-  .cohort-num { font-family: var(--serif); font-size: 52px; line-height: 1; color: #fff; }
-  .cohort-label { font-size: 12.5px; color: rgba(255,255,255,0.62); margin-top: 8px; letter-spacing: 0.04em; }
+  .cohorts { display: flex; flex-wrap: wrap; gap: 32px; }
+  .cohort-num { font-family: var(--serif); font-size: 40px; font-weight: 700; line-height: 1; color: #fff; }
+  .cohort-label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.55); margin-top: 6px; letter-spacing: 0.08em; text-transform: uppercase; }
 </style>
 </head>
 <body>
 
-<header id="header">
-  <a class="logo" href="index.html">
-    <img src="assets/logos/ce-logo.png" alt="CE" />
-    <span>CE Alumni Network</span>
-  </a>
-  <nav>
-    <a href="community.html">Community</a>
-    <a class="cta" href="considering-ce.html">Considering CE?</a>
-  </nav>
-</header>
+<main class="msp-main wide">
 
-<section class="hero">
-  <div class="glow glow-1"></div>
-  <div class="glow glow-2"></div>
+<section class="msp-hero hero">
   <div class="hero-grid">
     <div class="hero-copy">
       <div class="hero-eyebrow">Circular Engineering &middot; since 2021</div>
       <h1>Where <em id="hero-total">83</em> circular engineers went next.</h1>
       <p>Every CE graduate since the first cohort, mapped: the countries they live in, the universities they continued at, and the work they do now. <span id="hero-cohorts"></span></p>
-      <div class="btn-row">
-        <a class="btn btn-primary" href="considering-ce.html">Considering CE?</a>
-        <a class="btn btn-ghost" href="community.html">Join the community</a>
+      <div class="btn-row msp-hero-actions">
+        <a class="msp-btn msp-btn-or" href="considering-ce.html">Considering CE?</a>
+        <a class="msp-btn msp-btn-sky" href="community.html">Join the community</a>
       </div>
     </div>
     <figure class="map-fig">
@@ -124,32 +117,30 @@
   </div>
 </section>
 
-<section class="stat-strip">
-  <div class="stat-card">
-    <div class="stat">
-      <div class="stat-num" id="stat-alumni">83</div>
-      <div class="stat-label">Graduates</div>
-      <div class="stat-note">Since the first cohort in 2024</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num" id="stat-nationalities">15</div>
-      <div class="stat-label">Nationalities</div>
-      <div class="stat-note">Across the 2024 and 2025 classes</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num" id="stat-countries">10</div>
-      <div class="stat-label">Countries</div>
-      <div class="stat-note">Where the 2024 and 2025 classes live</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num" id="stat-unis">21</div>
-      <div class="stat-label">Universities</div>
-      <div class="stat-note">Master's destinations so far</div>
-    </div>
+<section class="stat-strip msp-stats">
+  <div class="msp-stat">
+    <div class="msp-stat-val" id="stat-alumni">83</div>
+    <div class="msp-stat-label">Graduates</div>
+    <div class="msp-stat-sub">Since the first cohort in 2024</div>
+  </div>
+  <div class="msp-stat">
+    <div class="msp-stat-val" id="stat-nationalities">15</div>
+    <div class="msp-stat-label">Nationalities</div>
+    <div class="msp-stat-sub">Across the 2024 and 2025 classes</div>
+  </div>
+  <div class="msp-stat">
+    <div class="msp-stat-val" id="stat-countries">10</div>
+    <div class="msp-stat-label">Countries</div>
+    <div class="msp-stat-sub">Where the 2024 and 2025 classes live</div>
+  </div>
+  <div class="msp-stat">
+    <div class="msp-stat-val" id="stat-unis">21</div>
+    <div class="msp-stat-label">Universities</div>
+    <div class="msp-stat-sub">Master's destinations so far</div>
   </div>
 </section>
 
-<section class="section wrap" id="stories">
+<section class="section" id="stories">
   <div class="sec-head">
     <div>
       <div class="eyebrow eyebrow-orange">Meet our alumni</div>
@@ -160,7 +151,7 @@
   <div class="alumni-grid" id="story-list"></div>
 </section>
 
-<section class="section wrap" id="tracks">
+<section class="section" id="tracks">
   <div class="sec-head">
     <div>
       <div class="eyebrow eyebrow-blue">Where each track leads</div>
@@ -171,7 +162,7 @@
   <div class="track-grid" id="track-list"></div>
 </section>
 
-<section class="section wrap" id="region">
+<section class="section" id="region">
   <div class="lead">
     <div class="eyebrow eyebrow-orange">Regional impact</div>
     <h2>A Euregio programme, and it shows.</h2>
@@ -181,7 +172,7 @@
   <div class="cities" id="city-list"></div>
 </section>
 
-<section class="section wrap" id="concentrations">
+<section class="section" id="concentrations">
   <div class="lead">
     <div class="eyebrow eyebrow-blue">The four tracks</div>
     <h2>Four concentrations, one loop.</h2>
@@ -190,7 +181,7 @@
   <div class="conc-grid" id="conc-list"></div>
 </section>
 
-<section class="section wrap" id="world">
+<section class="section" id="world">
   <div class="lead">
     <div class="eyebrow eyebrow-orange">Where they live</div>
     <h2><span id="world-count">10</span> countries, one network.</h2>
@@ -200,7 +191,7 @@
   <div class="note"><span id="country-note"></span> <a href="community.html">Update your details &rarr;</a></div>
 </section>
 
-<section class="section wrap">
+<section class="section">
   <div class="panel">
     <div class="sec-head">
       <div>
@@ -215,8 +206,8 @@
 </section>
 
 <section class="growth" id="status">
-  <div class="wrap" style="padding: 0 0;">
-    <div class="sec-head" style="margin-bottom: 46px;">
+  <div class="wrap">
+    <div class="sec-head">
       <div>
         <div class="eyebrow eyebrow-blue">What they are doing now</div>
         <h2 id="status-title">Most are still studying.</h2>
@@ -233,43 +224,30 @@
   </div>
 </section>
 
-<section class="wrap">
+<section>
   <div class="cta-grid">
     <div class="cta-card">
       <h3>Considering CE?</h3>
       <p>See what graduates actually do next: the four concentrations, the universities that accept CE degrees, and where the work is.</p>
-      <a class="btn btn-navy" href="considering-ce.html">For prospective students &rarr;</a>
+      <a class="msp-btn msp-btn-navy" href="considering-ce.html">For prospective students &rarr;</a>
     </div>
     <div class="cta-card">
       <h3>Already a CE alum?</h3>
       <p>Update your details so the map stays accurate, or tell us your story for the next feature.</p>
-      <a class="btn btn-outline" href="community.html">Get in touch &rarr;</a>
+      <a class="msp-btn msp-btn-gh" href="community.html">Get in touch &rarr;</a>
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="foot-grid">
-    <div class="foot-brand">
-      <img src="assets/logos/ce-logo.png" alt="CE" />
-      <p>CE Alumni Network. Circular Engineering, Faculty of Science and Engineering, Maastricht University.</p>
-    </div>
-    <div class="foot-col">
-      <h4>Explore</h4>
-      <a href="index.html">Home</a>
-      <a href="community.html">Community</a>
-      <a href="considering-ce.html">Considering CE?</a>
-    </div>
-    <div class="foot-col">
-      <h4>Connect</h4>
-      <a href="https://www.maastrichtuniversity.nl">Maastricht University</a>
-      <a href="privacy.html">Privacy policy</a>
-    </div>
+</main>
+
+<footer class="msp-footer">
+  <div class="foot-links">
+    <a href="https://www.maastrichtuniversity.nl">Maastricht University</a>
+    <a href="privacy.html">Privacy policy</a>
   </div>
-  <div class="foot-bottom">
-    <span>&copy; 2026 CE Alumni Network. Maastricht University.</span>
-    <span id="data-note"></span>
-  </div>
+  <span>&copy; 2026 CE Alumni Network. Maastricht University.</span>
+  <span id="data-note"></span>
 </footer>
 
 <div class="map-tip" id="map-tip"></div>
@@ -330,5 +308,20 @@ var LABEL = { "South Korea": "South Korea" };
   });
 })();
 </script>
+    <script src="assets/msp-ui/msp-shell.js"></script>
+    <script>
+        MSPShell.init({
+            title: 'CE Alumni Network',
+            subtitle: 'Circular Engineering<br>Maastricht University',
+            nav: [
+                { label: 'Home',            hint: 'The alumni dashboard',     href: 'index.html',          icon: 'globe' },
+                { label: 'Community',       hint: 'Stay connected',           href: 'community.html',      icon: 'users' },
+                { label: 'Considering CE?', hint: 'For prospective students', href: 'considering-ce.html', icon: 'gradcap' },
+                { divider: true },
+                { label: 'Privacy',         hint: 'How we handle your data',  href: 'privacy.html',        icon: 'shield' }
+            ],
+            footer: 'Aggregated, anonymised statistics. Individual alumni appear only with their consent.'
+        });
+    </script>
 </body>
 </html>

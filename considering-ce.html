@@ -6,2476 +6,399 @@
     <title>Considering CE? | Circular Engineering Alumni</title>
     <link rel="icon" type="image/png" href="assets/logos/ce-logo.png">
     <meta name="description" content="Discover where Circular Engineering graduates go next. Explore Master's destinations, career paths, and the impact CE alumni are making worldwide.">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    
+
+    <!-- Shared MSP frame: sidebar, tokens, type (self-hosted fonts) -->
+    <link rel="stylesheet" href="assets/msp-ui/msp-ui.css">
+
+    <!-- Lucide Icons (pinned) -->
+    <script src="https://unpkg.com/lucide@0.576.0/dist/umd/lucide.js"></script>
+
     <!-- CE Alumni Data -->
     <script src="data.js"></script>
-    
+
     <style>
         /* ============================================
-           CSS VARIABLES
+           TOKENS, mapped onto the shared MSP kit
         ============================================ */
         :root {
-            --um-dark-blue: #001C3D;
-            --um-darker-blue: #00101f;
+            --um-dark-blue: var(--msp-navy);
+            --um-darker-blue: var(--msp-navy);
             --um-light-blue: #00A2DB;
-            
-            --ce-green-primary: #10B981;
+
+            --ce-green-primary: #10B981;   /* CE identity accents, kept */
             --ce-green-dark: #059669;
             --ce-green-light: #34D399;
             --ce-green-glow: rgba(16, 185, 129, 0.3);
             --ce-teal: #14B8A6;
-            
-            --ce-sand: #F5F0E8;
-            --ce-warm-white: #FDFCFA;
-            
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
-            --gray-500: #6b7280;
-            --gray-600: #4b5563;
-            --gray-800: #1f2937;
-            
-            --font-heading: var(--font-display);
-            --font-body: var(--font-body);
-            
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.04);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06);
-            --shadow-lg: 0 8px 24px rgba(0,0,0,0.08), 0 16px 48px rgba(0,0,0,0.08);
-            
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 20px;
-            --radius-xl: 28px;
+
+            --ce-sand: var(--msp-g0);
+            --ce-warm-white: var(--msp-g0);
+
+            --gray-50: var(--msp-g0);
+            --gray-100: var(--msp-g1);
+            --gray-200: var(--msp-g2);
+            --gray-300: var(--msp-g3);
+            --gray-500: var(--msp-g5);
+            --gray-600: var(--msp-g7);
+            --gray-700: var(--msp-g7);
+            --gray-800: var(--msp-g9);
+
+            --font-heading: var(--msp-font-display);
+            --font-body: var(--msp-font);
+
+            --shadow-sm: var(--msp-sh);
+            --shadow-md: var(--msp-sh-md);
+            --shadow-lg: var(--msp-sh-lg);
+
+            --radius-sm: var(--msp-rs);
+            --radius-md: var(--msp-r);
+            --radius-lg: var(--msp-r);
+            --radius-xl: var(--msp-rl);
             --radius-full: 9999px;
-            
+
             --transition-fast: 0.15s ease;
             --transition-smooth: 0.3s ease;
         }
-        
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
-        body {
-            font-family: var(--font-body);
-            font-size: 16px;
-            line-height: 1.6;
-            color: var(--um-dark-blue);
-            background: var(--ce-warm-white);
-        }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: var(--font-heading);
-            line-height: 1.2;
-            letter-spacing: -0.02em;
-        }
-        a { color: var(--ce-green-primary); text-decoration: none; transition: color var(--transition-fast); }
-        a:hover { color: var(--ce-green-dark); }
-        
+
+        *, *::before, *::after { box-sizing: border-box; }
+        h1, h2, h3, h4, h5, h6, p { margin: 0; }
+
         /* ============================================
-           HEADER
+           HERO (in-column .msp-hero card)
         ============================================ */
-        header {
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0,28,61,0.06);
-            padding: 0 50px;
-            height: 72px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            transition: all var(--transition-smooth);
-        }
-        
-        header.scrolled {
-            background: var(--um-dark-blue);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        }
-        
-        .logo { display: flex; align-items: center; gap: 14px; }
-        .logo-img { height: 44px; width: auto; }
-        .logo-text h1 { font-size: 18px; font-weight: 700; color: var(--um-dark-blue); transition: color var(--transition-smooth); }
-        .logo-text p { font-size: 12px; color: var(--gray-500); font-weight: 500; transition: color var(--transition-smooth); }
-        header.scrolled .logo-text h1 { color: white; }
-        header.scrolled .logo-text p { color: rgba(255,255,255,0.7); }
-        
-        .header-nav { display: flex; align-items: center; gap: 8px; }
-        .header-nav a {
-            padding: 10px 18px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--gray-600);
-            border-radius: var(--radius-full);
-            transition: all var(--transition-fast);
-        }
-        .header-nav a:hover { color: var(--um-dark-blue); background: var(--gray-100); }
-        .header-nav a.active { background: var(--ce-green-primary); color: white; }
-        .header-nav .btn-cta {
-            background: linear-gradient(135deg, var(--ce-green-primary), var(--ce-green-dark));
-            color: white;
-            font-weight: 600;
-        }
-        header.scrolled .header-nav a { color: rgba(255,255,255,0.8); }
-        header.scrolled .header-nav a:hover { color: white; background: rgba(255,255,255,0.1); }
-        header.scrolled .header-nav a.active { background: var(--ce-green-primary); color: white; }
-        
+        .hero-content { display: grid; grid-template-columns: 1.2fr 1fr; gap: 36px; align-items: center; position: relative; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 7px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ce-green-light); margin-bottom: 10px; }
+        .hero-badge [data-lucide] { width: 14px; height: 14px; }
+        .msp-hero.hero h1 { font-size: 30px; line-height: 1.15; margin: 0 0 10px; }
+        .hero h1 span { background: linear-gradient(135deg, var(--ce-green-light), var(--ce-teal)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .msp-hero.hero .hero-text p { font-size: 13.5px; line-height: 1.7; opacity: 0.78; max-width: 52ch; margin: 0 0 18px; }
+        .hero-buttons { margin-top: 0; }
+        .hero-stats-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-md); padding: 22px 24px; }
+        .hero-stats-card h3 { font-family: var(--font-body); font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.12em; margin: 0 0 16px; }
+        .hero-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .hero-stat-item { text-align: center; padding: 14px 10px; background: rgba(255,255,255,0.06); border-radius: var(--radius-sm); }
+        .hero-stat-value { font-family: var(--font-heading); font-size: 28px; font-weight: 700; color: var(--ce-green-light); line-height: 1.1; }
+        .hero-stat-label { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.08em; }
+
         /* ============================================
-           HERO - ABSTRACT CIRCULAR FLOW NETWORK
+           SECTION CARDS + HEADERS
+           Every former full-bleed band is now a card in the column.
         ============================================ */
-        .hero {
-            background: linear-gradient(165deg, #000408 0%, #000a12 15%, #001018 35%, #001525 55%, #001C3D 100%);
-            padding: 140px 50px 100px;
-            position: relative;
-            overflow: hidden;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
+        .main-content { max-width: none; margin: 0; padding: 0; }
+        .universities-section, .careers-section, .career-pathways-section, .five-rs-section,
+        .brightlands-section, .learning-evolution-section, .journey-section,
+        .challenges-section, .concentrations-section, .um-links-section {
+            background: #fff; border: 1px solid var(--gray-200); border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm); padding: 28px 32px; margin: 0 0 20px;
         }
-        
-        /* Canvas for particle animation */
-        #particleCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
+        .five-rs-section { background: var(--msp-ok-bg); border-color: var(--msp-ok-bd); overflow: hidden; }
+        .brightlands-section { background: var(--msp-inf-bg); border-color: var(--msp-inf-bd); }
+        .pathways-container, .five-rs-container, .brightlands-container, .evolution-container, .journey-container { max-width: none; margin: 0; }
+
+        .section-header, .pathways-header, .five-rs-header, .brightlands-header, .evolution-header, .journey-header, .um-links-header {
+            text-align: center; max-width: 60ch; margin: 0 auto 26px;
         }
-        
-        /* Gradient orbs */
-        .gradient-orbs {
-            position: absolute;
-            inset: 0;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 2;
+        .section-header h2, .pathways-header h2, .five-rs-header h2, .brightlands-header h2, .evolution-header h2, .journey-header h2, .um-links-title {
+            font-size: 22px; font-weight: 700; margin: 0 0 6px; line-height: 1.2;
         }
-        
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.5;
-            animation: orb-float 20s ease-in-out infinite;
+        .section-header p, .pathways-header p, .five-rs-header p, .brightlands-header p, .evolution-header p, .journey-header p, .um-links-subtitle {
+            font-size: 13.5px; color: var(--gray-500); margin: 0; line-height: 1.6;
         }
-        
-        .orb-1 {
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.5) 0%, transparent 70%);
-            top: -15%;
-            right: -10%;
-            animation-delay: 0s;
+        .um-links-logo { height: 40px; margin-bottom: 14px; }
+
+        /* icon tiles share one box model */
+        .challenge-icon, .concentration-icon, .campus-icon, .career-icon, .pathway-source-icon,
+        .evolution-method-icon, .pathway-destination-icon, .branch-icon, .um-link-icon {
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
-        
-        .orb-2 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(20, 184, 166, 0.4) 0%, transparent 70%);
-            bottom: 5%;
-            left: -15%;
-            animation-delay: -7s;
-        }
-        
-        .orb-3 {
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(52, 211, 153, 0.3) 0%, transparent 70%);
-            top: 50%;
-            left: 40%;
-            animation-delay: -14s;
-        }
-        
-        @keyframes orb-float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(40px, -30px) scale(1.1); }
-            50% { transform: translate(-30px, 40px) scale(0.9); }
-            75% { transform: translate(30px, 30px) scale(1.05); }
-        }
-        
-        /* Flowing curved lines */
-        .flow-svg {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 3;
-        }
-        
-        .flow-path {
-            fill: none;
-            stroke: url(#flowGradient);
-            stroke-width: 2;
-            stroke-linecap: round;
-            opacity: 0.3;
-        }
-        
-        .flow-path-1 {
-            stroke-dasharray: 20 30;
-            animation: flow-move 15s linear infinite;
-        }
-        
-        .flow-path-2 {
-            stroke-dasharray: 15 25;
-            animation: flow-move 20s linear infinite reverse;
-        }
-        
-        .flow-path-3 {
-            stroke-dasharray: 25 35;
-            animation: flow-move 18s linear infinite;
-            animation-delay: -5s;
-        }
-        
-        @keyframes flow-move {
-            0% { stroke-dashoffset: 0; }
-            100% { stroke-dashoffset: -200; }
-        }
-        
-        /* Floating nodes/particles */
-        .nodes-container {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            z-index: 4;
-        }
-        
-        .node {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(16, 185, 129, 1), rgba(16, 185, 129, 0.4));
-            box-shadow: 0 0 30px rgba(16, 185, 129, 0.6), 0 0 60px rgba(16, 185, 129, 0.3);
-            animation: node-pulse 4s ease-in-out infinite;
-        }
-        
-        .node::before {
-            content: '';
-            position: absolute;
-            inset: -8px;
-            border-radius: 50%;
-            border: 1px solid rgba(16, 185, 129, 0.4);
-            animation: node-ring 4s ease-in-out infinite;
-        }
-        
-        .node-1 { width: 14px; height: 14px; top: 12%; left: 18%; animation-delay: 0s; }
-        .node-2 { width: 10px; height: 10px; top: 22%; right: 22%; animation-delay: -0.8s; }
-        .node-3 { width: 12px; height: 12px; top: 55%; left: 12%; animation-delay: -1.6s; }
-        .node-4 { width: 8px; height: 8px; top: 65%; right: 18%; animation-delay: -2.4s; }
-        .node-5 { width: 16px; height: 16px; top: 30%; left: 6%; animation-delay: -0.4s; }
-        .node-6 { width: 10px; height: 10px; bottom: 30%; left: 28%; animation-delay: -1.2s; }
-        .node-7 { width: 12px; height: 12px; top: 18%; right: 8%; animation-delay: -2s; }
-        .node-8 { width: 8px; height: 8px; bottom: 40%; right: 25%; animation-delay: -2.8s; }
-        .node-9 { width: 6px; height: 6px; top: 40%; left: 25%; animation-delay: -3.2s; }
-        .node-10 { width: 10px; height: 10px; bottom: 20%; right: 12%; animation-delay: -3.6s; }
-        
-        @keyframes node-pulse {
-            0%, 100% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.3); opacity: 1; }
-        }
-        
-        @keyframes node-ring {
-            0%, 100% { transform: scale(1); opacity: 0.6; }
-            50% { transform: scale(2); opacity: 0; }
-        }
-        
-        /* Subtle hex grid pattern */
-        .hero-grid {
-            position: absolute;
-            inset: 0;
-            background-image: 
-                linear-gradient(rgba(16, 185, 129, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(16, 185, 129, 0.04) 1px, transparent 1px);
-            background-size: 50px 50px;
-            pointer-events: none;
-            z-index: 2;
-            mask-image: radial-gradient(ellipse 70% 50% at 50% 50%, black 30%, transparent 70%);
-            -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 50%, black 30%, transparent 70%);
-        }
-        
-        /* Large subtle circular symbol */
-        .ce-symbol-bg {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 800px;
-            height: 800px;
-            opacity: 0.03;
-            pointer-events: none;
-            z-index: 2;
-            animation: symbol-rotate 180s linear infinite;
-        }
-        
-        .ce-symbol-bg svg {
-            width: 100%;
-            height: 100%;
-            stroke: var(--ce-green-light);
-            fill: none;
-            stroke-width: 1.5;
-        }
-        
-        @keyframes symbol-rotate {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        
-        .hero-content {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-            position: relative;
-            z-index: 10;
-        }
-        
-        .hero-text .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 8px 20px;
-            border-radius: var(--radius-full);
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--ce-green-light);
-            margin-bottom: 24px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .hero-badge i { width: 16px; height: 16px; }
-        
-        .hero h1 {
-            font-size: 48px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 16px;
-            line-height: 1.15;
-        }
-        
-        .hero h1 span {
-            background: linear-gradient(135deg, var(--ce-green-light), var(--ce-teal));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .hero-text p {
-            font-size: 18px;
-            color: rgba(255,255,255,0.7);
-            line-height: 1.7;
-            margin-bottom: 30px;
-        }
-        
-        .hero-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            align-items: flex-start;
-        }
-        
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 32px;
-            background: linear-gradient(135deg, var(--ce-green-primary), var(--ce-green-dark));
-            color: white;
-            border-radius: var(--radius-full);
-            font-weight: 600;
-            transition: all var(--transition-smooth);
-            box-shadow: 0 8px 25px var(--ce-green-glow);
-        }
-        
-        .hero-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px var(--ce-green-glow);
-            color: white;
-        }
-        
-        .hero-cta-secondary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 32px;
-            background: linear-gradient(135deg, var(--ce-green-primary), var(--ce-green-dark));
-            color: white;
-            border-radius: var(--radius-full);
-            font-weight: 600;
-            transition: all var(--transition-smooth);
-            box-shadow: 0 8px 25px var(--ce-green-glow);
-        }
-        
-        .hero-cta-secondary:hover {
-            transform: translateY(-2px);
-            background: rgba(255,255,255,0.1);
-            border-color: white;
-            color: white;
-        }
-        
-        .hero-cta i, .hero-cta-secondary i { width: 20px; height: 20px; }
-        
-        /* Hero stats card */
-        .hero-stats-card {
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: var(--radius-xl);
-            padding: 40px;
-        }
-        
-        .hero-stats-card h3 {
-            font-size: 16px;
-            font-weight: 600;
-            color: rgba(255,255,255,0.6);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 24px;
-        }
-        
-        .hero-stat-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-        
-        .hero-stat-item {
-            text-align: center;
-            padding: 20px;
-            background: rgba(255,255,255,0.05);
-            border-radius: var(--radius-md);
-        }
-        
-        .hero-stat-value {
-            font-family: var(--font-heading);
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--ce-green-light);
-        }
-        
-        .hero-stat-label {
-            font-size: 13px;
-            color: rgba(255,255,255,0.5);
-            margin-top: 4px;
-        }
-        
+
         /* ============================================
-           MAIN CONTENT
+           UNIVERSITIES
         ============================================ */
-        .main-content {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 50px 50px;
-        }
-        
-        .section-header {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto 50px;
-        }
-        
-        .section-header h2 {
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--um-dark-blue);
-            margin-bottom: 12px;
-        }
-        
-        .section-header p {
-            font-size: 16px;
-            color: var(--gray-500);
-        }
-        
-        /* ============================================
-           UM LINKS SECTION
-        ============================================ */
-        .um-links-section {
-            background: linear-gradient(180deg, var(--gray-50) 0%, white 100%);
-            padding: 50px 50px;
-        }
-        
-        .um-links-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        
-        .um-links-logo {
-            height: 60px;
-            margin-bottom: 24px;
-        }
-        
-        .um-links-title {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--um-dark-blue);
-            margin-bottom: 12px;
-        }
-        
-        .um-links-subtitle {
-            font-size: 16px;
-            color: var(--gray-500);
-        }
-        
-        .um-links-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .um-link-card {
-            background: white;
-            border: 1px solid var(--gray-200);
-            border-radius: var(--radius-lg);
-            padding: 28px;
-            display: flex;
-            align-items: flex-start;
-            gap: 18px;
-            transition: all var(--transition-smooth);
-            text-decoration: none;
-            color: var(--um-dark-blue);
-        }
-        
-        .um-link-card:hover {
-            border-color: var(--ce-green-primary);
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-4px);
-            color: var(--um-dark-blue);
-        }
-        
-        .um-link-card.featured {
-            background: linear-gradient(135deg, var(--um-dark-blue) 0%, #002b5c 100%);
-            border-color: transparent;
-            color: white;
-            grid-column: span 2;
-        }
-        
-        .um-link-card.featured:hover {
-            box-shadow: 0 12px 40px rgba(0,28,61,0.3);
-            color: white;
-        }
-        
-        .um-link-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--gray-100);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        
-        .um-link-card.featured .um-link-icon {
-            background: rgba(255,255,255,0.15);
-        }
-        
-        .um-link-icon i {
-            width: 24px;
-            height: 24px;
-            color: var(--ce-green-primary);
-        }
-        
-        .um-link-card.featured .um-link-icon i {
-            color: white;
-        }
-        
-        .um-link-content {
-            flex: 1;
-        }
-        
-        .um-link-title {
-            font-family: var(--font-heading);
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-        
-        .um-link-desc {
-            font-size: 14px;
-            color: var(--gray-500);
-            line-height: 1.5;
-        }
-        
-        .um-link-card.featured .um-link-desc {
-            color: rgba(255,255,255,0.7);
-        }
-        
-        .um-link-arrow {
-            color: var(--gray-300);
-            transition: all var(--transition-smooth);
-        }
-        
-        .um-link-card:hover .um-link-arrow {
-            color: var(--ce-green-primary);
-            transform: translateX(4px);
-        }
-        
-        .um-link-card.featured .um-link-arrow {
-            color: rgba(255,255,255,0.5);
-        }
-        
-        .um-link-card.featured:hover .um-link-arrow {
-            color: white;
-        }
-        
-        .um-link-arrow i {
-            width: 20px;
-            height: 20px;
-        }
-        
-        /* ============================================
-           REAL-LIFE CHALLENGES SECTION
-        ============================================ */
-        .challenges-section {
-            background: white;
-            padding: 50px 50px;
-            margin-bottom: 0;
-        }
-        
-        .challenges-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        
-        .challenge-card {
-            background: var(--gray-50);
-            border-radius: var(--radius-lg);
-            padding: 30px;
-            border: 1px solid var(--gray-200);
-            transition: all var(--transition-smooth);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .challenge-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--ce-green-primary);
-        }
-        
-        .challenge-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--ce-green-primary), var(--ce-teal));
-        }
-        
-        .challenge-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--ce-green-primary), var(--ce-green-dark));
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .challenge-icon i {
-            width: 24px;
-            height: 24px;
-            color: white;
-        }
-        
-        .challenge-card h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--um-dark-blue);
-            margin-bottom: 12px;
-        }
-        
-        .challenge-card p {
-            font-size: 14px;
-            color: var(--gray-600);
-            line-height: 1.6;
-        }
-        
-        .challenge-tag {
-            display: inline-block;
-            margin-top: 16px;
-            padding: 6px 12px;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--ce-green-dark);
-            font-size: 12px;
-            font-weight: 600;
-            border-radius: var(--radius-full);
-        }
-        
-        /* ============================================
-           CONCENTRATIONS SECTION
-        ============================================ */
-        .concentrations-section {
-            margin-bottom: 80px;
-        }
-        
-        .concentration-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-        
-        .concentration-card {
-            background: white;
-            border-radius: var(--radius-lg);
-            padding: 30px;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--gray-200);
-            transition: all var(--transition-smooth);
-            text-align: center;
-        }
-        
-        .concentration-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--ce-green-primary);
-        }
-        
-        .concentration-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 20px;
-            background: linear-gradient(135deg, var(--ce-green-primary), var(--ce-teal));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .concentration-icon i {
-            width: 28px;
-            height: 28px;
-            color: white;
-        }
-        
-        .concentration-card h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--um-dark-blue);
-            margin-bottom: 8px;
-        }
-        
-        .concentration-count {
-            font-family: var(--font-heading);
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--ce-green-primary);
-            margin-bottom: 4px;
-        }
-        
-        .concentration-label {
-            font-size: 13px;
-            color: var(--gray-500);
-        }
-        
-        .concentration-pathways {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid var(--gray-100);
-        }
-        
-        .concentration-pathways h4 {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--gray-500);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 10px;
-        }
-        
-        .pathway-tags {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 6px;
-        }
-        
-        .pathway-tag {
-            font-size: 11px;
-            padding: 4px 10px;
-            background: var(--gray-100);
-            color: var(--gray-600);
-            border-radius: var(--radius-full);
-        }
-        
-        /* ============================================
-           UNIVERSITIES SECTION
-        ============================================ */
-        .universities-section {
-            background: var(--ce-sand);
-            padding: 50px 50px;
-            margin-bottom: 0;
-        }
-        
-        .universities-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        
-        .university-card {
-            background: white;
-            border-radius: var(--radius-md);
-            padding: 24px;
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-            transition: all var(--transition-smooth);
-        }
-        
-        .university-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .university-logo-wrapper {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .university-card img {
-            max-width: 60px;
-            max-height: 60px;
-            object-fit: contain;
-        }
-        
-        .university-card .uni-placeholder {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--ce-green-primary), var(--ce-teal));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .university-card .uni-placeholder i {
-            width: 28px;
-            height: 28px;
-            color: white;
-        }
-        
-        .university-card h4 {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--um-dark-blue);
-            margin-bottom: 4px;
-            line-height: 1.3;
-        }
-        
-        .university-card .uni-count {
-            font-size: 13px;
-            color: var(--gray-500);
-        }
-        
-        .university-card .uni-country {
-            font-size: 12px;
-            color: var(--ce-green-primary);
-            font-weight: 500;
-        }
-        
+        .universities-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+        .university-card { background: #fff; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 20px 16px; text-align: center; box-shadow: var(--shadow-sm); transition: box-shadow var(--transition-fast), border-color var(--transition-fast); cursor: pointer; }
+        .university-card:hover { box-shadow: var(--shadow-md); border-color: var(--gray-300); }
+        .university-logo-wrapper { width: 56px; height: 56px; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; }
+        .university-card img { max-width: 56px; max-height: 56px; object-fit: contain; }
+        .university-card .uni-placeholder { width: 56px; height: 56px; background: var(--ce-green-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .university-card .uni-placeholder [data-lucide] { width: 26px; height: 26px; color: #fff; }
+        .university-card h4 { font-size: 13.5px; font-weight: 600; margin: 0 0 3px; line-height: 1.3; }
+        .university-card .uni-country { font-size: 11.5px; color: var(--ce-green-dark); font-weight: 600; }
+        .university-card .uni-count { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+
         /* ============================================
            CAREER SECTORS
         ============================================ */
-        .careers-section {
-            margin-bottom: 80px;
-        }
-        
-        .careers-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-        
-        .career-card {
-            background: white;
-            border-radius: var(--radius-lg);
-            padding: 30px;
-            box-shadow: var(--shadow-md);
-            border-left: 4px solid var(--ce-green-primary);
-            transition: all var(--transition-smooth);
-        }
-        
-        .career-card:hover {
-            transform: translateX(4px);
-        }
-        
-        .career-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(16, 185, 129, 0.1);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .career-icon i {
-            width: 24px;
-            height: 24px;
-            color: var(--ce-green-primary);
-        }
-        
-        .career-card h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--um-dark-blue);
-            margin-bottom: 8px;
-        }
-        
-        .career-card p {
-            font-size: 14px;
-            color: var(--gray-500);
-            line-height: 1.6;
-        }
-        
+        .careers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        .career-card { background: #fff; border: 1px solid var(--gray-200); border-left: 3px solid var(--ce-green-primary); border-radius: var(--radius-md); padding: 22px; box-shadow: var(--shadow-sm); transition: box-shadow var(--transition-fast); }
+        .career-card:hover { box-shadow: var(--shadow-md); }
+        .career-icon { width: 40px; height: 40px; background: rgba(16, 185, 129, 0.1); border-radius: 9px; margin-bottom: 14px; }
+        .career-icon [data-lucide] { width: 20px; height: 20px; color: var(--ce-green-primary); }
+        .career-card h3 { font-size: 15px; font-weight: 600; margin: 0 0 6px; }
+        .career-card p { font-size: 13px; color: var(--gray-500); line-height: 1.6; }
+
         /* ============================================
-           NOTABLE EMPLOYERS SECTION
+           CONCENTRATION TO CAREER
         ============================================ */
-        .employers-section {
-            background: white;
-            padding: 50px 50px;
-        }
-        
-        .employers-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        
-        .employer-card {
-            background: var(--gray-50);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            text-align: center;
-            border: 1px solid var(--gray-200);
-            transition: all var(--transition-smooth);
-        }
-        
-        .employer-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--ce-green-primary);
-        }
-        
-        .employer-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--um-dark-blue);
-            margin-bottom: 6px;
-        }
-        
-        .employer-role {
-            font-size: 13px;
-            color: var(--gray-500);
-        }
-        
-        .employer-tag {
-            display: inline-block;
-            margin-top: 12px;
-            padding: 4px 12px;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--ce-green-dark);
-            font-size: 11px;
-            font-weight: 600;
-            border-radius: var(--radius-full);
-        }
-        
+        .pathway-flow { display: grid; grid-template-columns: 1fr auto 1.6fr; gap: 28px; align-items: center; margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--gray-100); }
+        .pathway-flow:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .pathway-source { background: var(--msp-ok-bg); border: 1px solid var(--msp-ok-bd); border-radius: var(--radius-md); padding: 24px; text-align: center; }
+        .pathway-source-icon { width: 48px; height: 48px; margin: 0 auto 12px; background: var(--ce-green-primary); border-radius: 50%; }
+        .pathway-source-icon [data-lucide] { width: 24px; height: 24px; color: #fff; }
+        .pathway-source h3 { font-family: var(--font-heading); font-size: 16px; font-weight: 700; margin: 0 0 6px; }
+        .pathway-source-count { font-size: 12.5px; color: var(--gray-600); font-weight: 600; }
+        .pathway-arrow { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .pathway-arrow [data-lucide] { width: 26px; height: 26px; color: var(--ce-green-primary); }
+        .pathway-arrow span { font-size: 10px; color: var(--gray-500); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+        .pathway-destinations { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .pathway-destination { background: #fff; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 16px; box-shadow: var(--shadow-sm); transition: box-shadow var(--transition-fast), border-color var(--transition-fast); }
+        .pathway-destination:hover { border-color: var(--gray-300); box-shadow: var(--shadow-md); }
+        .pathway-destination-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .pathway-destination-icon { width: 34px; height: 34px; background: var(--gray-50); border: 1px solid var(--gray-100); border-radius: 8px; }
+        .pathway-destination-icon [data-lucide] { width: 17px; height: 17px; color: var(--ce-green-primary); }
+        .pathway-destination h4 { font-size: 13.5px; font-weight: 600; }
+        .pathway-destination-examples { font-size: 12.5px; color: var(--gray-600); line-height: 1.55; }
+        .pathway-destination-count { font-size: 12px; color: var(--gray-500); font-weight: 600; margin-top: 8px; }
+
         /* ============================================
-           CTA SECTION
+           5 RS CIRCULAR LOOP
         ============================================ */
-        .cta-section {
-            background: linear-gradient(135deg, var(--ce-green-primary), var(--ce-green-dark));
-            border-radius: var(--radius-xl);
-            padding: 60px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .cta-section::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-        
-        .cta-content {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .cta-section h2 {
-            font-size: 32px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 12px;
-        }
-        
-        .cta-section p {
-            font-size: 18px;
-            color: rgba(255,255,255,0.85);
-            margin-bottom: 30px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 32px;
-            border-radius: var(--radius-full);
-            font-weight: 600;
-            font-size: 16px;
-            transition: all var(--transition-smooth);
-        }
-        
-        .btn i { width: 20px; height: 20px; }
-        
-        .btn-white {
-            background: white;
-            color: var(--ce-green-dark);
-        }
-        
-        .btn-white:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            color: var(--ce-green-dark);
-        }
-        
-        .btn-outline {
-            background: transparent;
-            color: white;
-            border: 2px solid rgba(255,255,255,0.4);
-        }
-        
-        .btn-outline:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: white;
-            color: white;
-        }
-        
-        /* ============================================
-           UNIVERSITY MODAL
-        ============================================ */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 28, 61, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: var(--radius-lg);
-            max-width: 550px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            transform: scale(0.9) translateY(20px);
-            transition: all 0.3s ease;
-        }
-        
-        .modal-overlay.active .modal-content {
-            transform: scale(1) translateY(0);
-        }
-        
-        .university-card {
-            cursor: pointer;
-        }
-        
-        .uni-modal-header {
-            padding: 30px;
-            background: linear-gradient(135deg, var(--um-dark-blue), #002a5c);
-            color: white;
-            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-            position: relative;
-        }
-        
-        .uni-modal-logo {
-            width: 70px;
-            height: 70px;
-            background: white;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            padding: 10px;
-        }
-        
-        .uni-modal-logo img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-        
-        .uni-modal-name {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        
-        .uni-modal-location {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        
-        .uni-modal-location img {
-            width: 20px;
-            height: 14px;
-            border-radius: 2px;
-        }
-        
-        .uni-modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 36px;
-            height: 36px;
-            border: none;
-            background: rgba(255,255,255,0.15);
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
-        
-        .uni-modal-close:hover {
-            background: rgba(255,255,255,0.25);
-        }
-        
-        .uni-modal-close i {
-            width: 20px;
-            height: 20px;
-            color: white;
-        }
-        
-        .uni-modal-body {
-            padding: 30px;
-        }
-        
-        .uni-modal-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--ce-green-dark);
-            padding: 6px 12px;
-            border-radius: var(--radius-full);
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
-        
-        .uni-modal-description {
-            font-size: 15px;
-            color: var(--gray-600);
-            line-height: 1.8;
-            margin-bottom: 24px;
-        }
-        
-        .uni-modal-programmes {
-            margin-bottom: 24px;
-        }
-        
-        .uni-modal-programmes h4 {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--um-dark-blue);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-        }
-        
-        .uni-programme-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        
-        .uni-programme-tag {
-            padding: 8px 14px;
-            background: var(--gray-100);
-            color: var(--gray-700);
-            border-radius: var(--radius-full);
-            font-size: 13px;
-            font-weight: 500;
-        }
-        
-        .uni-modal-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, var(--ce-green-primary), var(--ce-green-dark));
-            color: white;
-            padding: 14px 24px;
-            border-radius: var(--radius-md);
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-        
-        .uni-modal-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
-            color: white;
-        }
-        
-        .uni-modal-link i {
-            width: 18px;
-            height: 18px;
-        }
-        
-        /* ============================================
-           FOOTER
-        ============================================ */
-        footer {
-            background: var(--um-darker-blue);
-            color: white;
-            padding: 60px 50px 40px;
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 60px;
-        }
-        
-        .footer-brand { display: flex; flex-direction: column; gap: 16px; }
-        .footer-logo { height: 50px; width: auto; align-self: flex-start; }
-        .footer-brand h3 { font-size: 20px; font-weight: 600; }
-        .footer-brand p { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.7; max-width: 300px; }
-        
-        .footer-links h4 {
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 20px;
-            color: rgba(255,255,255,0.5);
-        }
-        
-        .footer-links a {
-            display: block;
-            color: rgba(255,255,255,0.7);
-            font-size: 14px;
-            padding: 6px 0;
-        }
-        
-        .footer-links a:hover { color: var(--ce-green-light); }
-        
-        .footer-bottom {
-            max-width: 1200px;
-            margin: 40px auto 0;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .footer-bottom p { font-size: 13px; color: rgba(255,255,255,0.4); }
-        .footer-bottom a { color: rgba(255,255,255,0.4); font-size: 13px; }
-        .footer-bottom a:hover { color: white; }
-        
-        /* ============================================
-           CE JOURNEY SECTION
-        ============================================ */
-        .journey-section {
-            background: linear-gradient(180deg, white 0%, var(--gray-50) 100%);
-            padding: 50px 50px;
-            overflow: hidden;
-        }
-        
-        .journey-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .journey-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        
-        .journey-header h2 {
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--um-dark-blue);
-            margin-bottom: 12px;
-        }
-        
-        .journey-header p {
-            font-size: 16px;
-            color: var(--gray-500);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        /* Main journey visualization */
-        .journey-visual {
-            position: relative;
-            padding: 40px 0;
-        }
-        
-        /* Connection line running through */
-        .journey-line {
-            position: absolute;
-            top: 50%;
-            left: 5%;
-            right: 5%;
-            height: 4px;
-            background: linear-gradient(90deg, 
-                var(--gray-200) 0%, 
-                var(--ce-green-primary) 15%, 
-                var(--ce-green-primary) 85%, 
-                var(--ce-green-primary) 100%);
-            transform: translateY(-50%);
-            z-index: 1;
-        }
-        
-        .journey-line::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 20px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(16, 185, 129, 0.15) 10%, 
-                rgba(16, 185, 129, 0.15) 90%, 
-                transparent 100%);
-            transform: translateY(-50%);
-            filter: blur(10px);
-        }
-        
-        /* Year stages container */
-        .journey-stages {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1.5fr;
-            gap: 32px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        /* Individual year card */
-        .journey-stage {
-            background: white;
-            border-radius: var(--radius-xl);
-            padding: 30px 24px;
-            box-shadow: var(--shadow-md);
-            border: 2px solid var(--gray-100);
-            transition: all var(--transition-smooth);
-            position: relative;
-        }
-        
-        .journey-stage:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--ce-green-primary);
-        }
-        
-        .journey-stage::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: 20px;
-            right: 20px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--ce-green-primary), var(--ce-teal));
-            border-radius: 4px 4px 0 0;
-        }
-        
-        .stage-year {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, var(--ce-green-primary), var(--ce-green-dark));
-            color: white;
-            padding: 6px 14px;
-            border-radius: var(--radius-full);
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-        
-        .stage-year i {
-            width: 14px;
-            height: 14px;
-        }
-        
-        .stage-title {
-            font-family: var(--font-heading);
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--um-dark-blue);
-            margin-bottom: 8px;
-        }
-        
-        .stage-subtitle {
-            font-size: 13px;
-            color: var(--ce-green-dark);
-            font-weight: 600;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .stage-content {
-            font-size: 14px;
-            color: var(--gray-600);
-            line-height: 1.6;
-        }
-        
-        .stage-stats {
-            display: flex;
-            gap: 16px;
-            margin-top: 20px;
-            padding-top: 16px;
-            border-top: 1px solid var(--gray-100);
-        }
-        
-        .stage-stat {
-            text-align: center;
-            flex: 1;
-        }
-        
-        .stage-stat-value {
-            font-family: var(--font-heading);
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--ce-green-primary);
-        }
-        
-        .stage-stat-label {
-            font-size: 11px;
-            color: var(--gray-500);
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        
-        /* Year 3 special - concentration branches */
-        .journey-stage.year-3 {
-            background: linear-gradient(135deg, var(--um-dark-blue) 0%, #002b5c 100%);
-            border-color: transparent;
-            color: white;
-        }
-        
-        .journey-stage.year-3::before {
-            background: linear-gradient(90deg, var(--ce-green-light), var(--ce-teal));
-        }
-        
-        .journey-stage.year-3 .stage-title {
-            color: white;
-        }
-        
-        .journey-stage.year-3 .stage-subtitle {
-            color: var(--ce-green-light);
-        }
-        
-        .journey-stage.year-3 .stage-content {
-            color: rgba(255,255,255,0.8);
-        }
-        
-        .concentration-branches {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 16px;
-        }
-        
-        .branch {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: var(--radius-md);
-            padding: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all var(--transition-fast);
-        }
-        
-        .branch:hover {
-            background: rgba(255,255,255,0.15);
-            border-color: var(--ce-green-light);
-        }
-        
-        .branch-icon {
-            width: 32px;
-            height: 32px;
-            background: rgba(16, 185, 129, 0.3);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        
-        .branch-icon i {
-            width: 16px;
-            height: 16px;
-            color: var(--ce-green-light);
-        }
-        
-        .branch-name {
-            font-size: 12px;
-            font-weight: 600;
-            color: white;
-            line-height: 1.3;
-        }
-        
-        /* Future stage */
-        .journey-stage.future {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(20, 184, 166, 0.1));
-            border: 2px dashed var(--ce-green-primary);
-        }
-        
-        .journey-stage.future::before {
-            display: none;
-        }
-        
-        .future-paths {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 16px;
-        }
-        
-        .future-path {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 14px;
-            background: white;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--gray-200);
-            transition: all var(--transition-fast);
-        }
-        
-        .future-path:hover {
-            border-color: var(--ce-green-primary);
-            transform: translateX(4px);
-        }
-        
-        .future-path i {
-            width: 18px;
-            height: 18px;
-            color: var(--ce-green-primary);
-        }
-        
-        .future-path span {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--um-dark-blue);
-        }
-        
-        .future-path .path-percent {
-            margin-left: auto;
-            font-size: 12px;
-            color: var(--gray-500);
-            font-weight: 500;
-        }
-        
-        /* ============================================
-           7-7-3 MODEL SECTION
-        ============================================ */
-        .semester-model {
-            margin-top: 80px;
-            padding-top: 60px;
-            border-top: 1px solid var(--gray-200);
-        }
-        
-        .semester-model-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        .semester-model-header h3 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--um-dark-blue);
-            margin-bottom: 8px;
-        }
-        
-        .semester-model-header p {
-            font-size: 14px;
-            color: var(--gray-500);
-        }
-        
-        .semester-visual {
-            display: flex;
-            gap: 12px;
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-        }
-        
-        .semester-visual::before {
-            content: '\00D7  2 semesters = 1 year';
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 13px;
-            color: var(--gray-500);
-            font-weight: 500;
-        }
-        
-        .period-block {
-            flex: 1;
-            background: white;
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            box-shadow: var(--shadow-sm);
-            border: 2px solid var(--gray-100);
-            text-align: center;
-            transition: all var(--transition-smooth);
-            position: relative;
-        }
-        
-        .period-block:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--ce-green-primary);
-        }
-        
-        .period-block.period-1,
-        .period-block.period-2 {
-            flex: 2.3;
-        }
-        
-        .period-block.period-3 {
-            flex: 1;
-            background: linear-gradient(135deg, var(--ce-green-primary), var(--ce-green-dark));
-            border-color: transparent;
-            color: white;
-        }
-        
-        .period-weeks {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--gray-100);
-            padding: 6px 12px;
-            border-radius: var(--radius-full);
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--um-dark-blue);
-            margin-bottom: 12px;
-        }
-        
-        .period-block.period-3 .period-weeks {
-            background: rgba(255,255,255,0.2);
-            color: white;
-        }
-        
-        .period-title {
-            font-family: var(--font-heading);
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--um-dark-blue);
-            margin-bottom: 12px;
-        }
-        
-        .period-block.period-3 .period-title {
-            color: white;
-        }
-        
-        .period-content {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .period-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 8px 12px;
-            background: var(--gray-50);
-            border-radius: var(--radius-sm);
-            font-size: 13px;
-            color: var(--gray-600);
-        }
-        
-        .period-block.period-3 .period-item {
-            background: rgba(255,255,255,0.15);
-            color: rgba(255,255,255,0.9);
-        }
-        
-        .period-item i {
-            width: 16px;
-            height: 16px;
-            color: var(--ce-green-primary);
-        }
-        
-        .period-block.period-3 .period-item i {
-            color: white;
-        }
-        
-        .period-connector {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gray-300);
-            font-size: 20px;
-        }
-        
-        /* ============================================
-           5 RS CIRCULAR LOOP SECTION
-        ============================================ */
-        .five-rs-section {
-            padding: 50px 50px;
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .five-rs-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .five-rs-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        
-        .five-rs-header h2 {
-            font-size: 36px;
-            font-weight: 800;
-            color: var(--um-dark-blue);
-            margin-bottom: 12px;
-        }
-        
-        .five-rs-header p {
-            font-size: 16px;
-            color: var(--gray-600);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .circular-loop {
-            position: relative;
-            width: 500px;
-            height: 500px;
-            margin: 0 auto;
-        }
-        
-        .loop-svg {
-            width: 100%;
-            height: 100%;
-            transform: rotate(-90deg);
-        }
-        
-        .loop-circle {
-            fill: none;
-            stroke: var(--ce-green-primary);
-            stroke-width: 3;
-            opacity: 0.2;
-        }
-        
-        .loop-arrow {
-            fill: none;
-            stroke: var(--ce-green-primary);
-            stroke-width: 3;
-            stroke-linecap: round;
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: drawArrow 3s ease-in-out infinite;
-        }
-        
-        @keyframes drawArrow {
-            to { stroke-dashoffset: 0; }
-        }
-        
-        .r-node {
-            position: absolute;
-            width: 90px;
-            height: 90px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
-            border: 3px solid var(--ce-green-primary);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .r-node:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
-            background: var(--ce-green-primary);
-            color: white;
-        }
-        
-        .r-node i {
-            width: 28px;
-            height: 28px;
-            color: var(--ce-green-primary);
-            margin-bottom: 4px;
-            transition: color 0.3s ease;
-        }
-        
-        .r-node:hover i {
-            color: white;
-        }
-        
-        .r-node span {
-            font-size: 11px;
-            font-weight: 700;
-            text-align: center;
-            color: var(--um-dark-blue);
-            transition: color 0.3s ease;
-        }
-        
-        .r-node:hover span {
-            color: white;
-        }
-        
+        .circular-loop { position: relative; width: 440px; height: 440px; margin: 0 auto; }
+        .loop-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+        .loop-circle { fill: none; stroke: var(--ce-green-primary); stroke-width: 3; opacity: 0.2; }
+        .loop-arrow { fill: none; stroke: var(--ce-green-primary); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawArrow 3s ease-in-out infinite; }
+        @keyframes drawArrow { to { stroke-dashoffset: 0; } }
+        .r-node { position: absolute; width: 84px; height: 84px; background: #fff; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: var(--shadow-md); border: 2px solid var(--ce-green-primary); transition: background 0.3s ease; cursor: pointer; }
+        .r-node:hover { background: var(--ce-green-primary); }
+        .r-node [data-lucide] { width: 24px; height: 24px; color: var(--ce-green-primary); margin-bottom: 4px; transition: color 0.3s ease; }
+        .r-node:hover [data-lucide] { color: #fff; }
+        .r-node span { font-size: 11px; font-weight: 700; text-align: center; color: var(--um-dark-blue); transition: color 0.3s ease; }
+        .r-node:hover span { color: #fff; }
         .r-node.reduce { top: 0; left: 50%; transform: translateX(-50%); }
         .r-node.reuse { top: 15%; right: 10%; }
         .r-node.remake { bottom: 30%; right: 0; }
         .r-node.repair { bottom: 30%; left: 0; }
         .r-node.recycle { top: 15%; left: 10%; }
-        
-        .loop-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-        
-        .loop-center-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 8px;
-            color: var(--ce-green-primary);
-        }
-        
-        .loop-center h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--um-dark-blue);
-            margin-bottom: 4px;
-        }
-        
-        .loop-center p {
-            font-size: 13px;
-            color: var(--gray-500);
-        }
-        
+        .loop-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+        .loop-center-icon { width: 48px; height: 48px; margin: 0 auto 6px; color: var(--ce-green-primary); display: block; }
+        .loop-center h3 { font-family: var(--font-heading); font-size: 16px; font-weight: 700; margin: 0 0 2px; }
+        .loop-center p { font-size: 12.5px; color: var(--gray-500); }
+
         /* ============================================
-           PBL/RBL EVOLUTION SECTION
+           BRIGHTLANDS ECOSYSTEM
         ============================================ */
-        .learning-evolution-section {
-            padding: 50px 50px;
-            background: white;
-        }
-        
-        .evolution-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .evolution-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        
-        .evolution-header h2 {
-            font-size: 36px;
-            font-weight: 800;
-            color: var(--um-dark-blue);
-            margin-bottom: 12px;
-        }
-        
-        .evolution-header p {
-            font-size: 16px;
-            color: var(--gray-600);
-        }
-        
-        .evolution-timeline {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            position: relative;
-        }
-        
-        .evolution-timeline::before {
-            content: '';
-            position: absolute;
-            top: 60px;
-            left: 16.666%;
-            right: 16.666%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--ce-green-primary), var(--ce-green-dark));
-            z-index: 0;
-        }
-        
-        .evolution-stage {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .evolution-stage-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-        
-        .evolution-year {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--ce-green-primary), var(--ce-green-dark));
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-        }
-        
-        .evolution-year-num {
-            font-size: 24px;
-            line-height: 1;
-        }
-        
-        .evolution-year-label {
-            font-size: 11px;
-            opacity: 0.9;
-        }
-        
-        .evolution-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--um-dark-blue);
-            margin-bottom: 8px;
-            text-align: center;
-        }
-        
-        .evolution-methods {
-            background: var(--gray-50);
-            border-radius: var(--radius-md);
-            padding: 20px;
-        }
-        
-        .evolution-method {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        
-        .evolution-method:last-child {
-            margin-bottom: 0;
-        }
-        
-        .evolution-method-icon {
-            width: 40px;
-            height: 40px;
-            background: white;
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .evolution-method-icon i {
-            width: 20px;
-            height: 20px;
-            color: var(--ce-green-primary);
-        }
-        
-        .evolution-method-content h4 {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--um-dark-blue);
-            margin-bottom: 4px;
-        }
-        
-        .evolution-method-content p {
-            font-size: 13px;
-            color: var(--gray-600);
-            line-height: 1.5;
-        }
-        
+        .brightlands-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .campus-card { display: block; background: #fff; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-sm); transition: box-shadow 0.2s ease, border-color 0.2s ease; color: var(--msp-g9); text-decoration: none; }
+        .campus-card:hover { box-shadow: var(--shadow-md); border-color: var(--msp-inf-bd); color: var(--msp-g9); }
+        .campus-header { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+        .campus-icon { width: 46px; height: 46px; background: var(--ce-green-primary); border-radius: 9px; }
+        .campus-icon [data-lucide] { width: 24px; height: 24px; color: #fff; }
+        .campus-title h3 { font-size: 14.5px; font-weight: 600; margin: 0 0 2px; line-height: 1.25; }
+        .campus-location { font-size: 12px; color: var(--gray-500); display: flex; align-items: center; gap: 4px; }
+        .campus-location [data-lucide] { width: 13px; height: 13px; }
+        .campus-focus { font-size: 13px; color: var(--gray-600); line-height: 1.6; }
+
         /* ============================================
-           BRIGHTLANDS ECOSYSTEM MAP
+           HOW YOU LEARN (PBL/RBL)
         ============================================ */
-        .brightlands-section {
-            padding: 50px 50px;
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-        }
-        
-        .brightlands-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .brightlands-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        
-        .brightlands-header h2 {
-            font-size: 36px;
-            font-weight: 800;
-            color: var(--um-dark-blue);
-            margin-bottom: 12px;
-        }
-        
-        .brightlands-header p {
-            font-size: 16px;
-            color: var(--gray-600);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .brightlands-map {
-            position: relative;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-        
-        .campus-card {
-            background: white;
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            box-shadow: var(--shadow-md);
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .campus-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--ce-green-primary);
-        }
-        
-        .campus-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-        
-        .campus-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--ce-green-primary), var(--ce-green-dark));
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        
-        .campus-icon i {
-            width: 32px;
-            height: 32px;
-            color: white;
-        }
-        
-        .campus-title h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--um-dark-blue);
-            margin-bottom: 2px;
-        }
-        
-        .campus-title .campus-location {
-            font-size: 13px;
-            color: var(--gray-500);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .campus-title .campus-location i {
-            width: 14px;
-            height: 14px;
-        }
-        
-        .campus-focus {
-            font-size: 14px;
-            color: var(--gray-600);
-            line-height: 1.6;
-        }
-        
-        .campus-connection {
-            position: absolute;
-            width: 2px;
-            background: var(--ce-green-primary);
-            opacity: 0.3;
-            z-index: 1;
-        }
-        
-        .brightlands-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-        
+        .evolution-timeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; position: relative; }
+        .evolution-timeline::before { content: ''; position: absolute; top: 34px; left: 16.666%; right: 16.666%; height: 2px; background: var(--ce-green-primary); opacity: 0.35; z-index: 0; }
+        .evolution-stage { position: relative; z-index: 1; }
+        .evolution-stage-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 14px; }
+        .evolution-year { width: 68px; height: 68px; background: var(--ce-green-primary); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; font-weight: 700; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
+        .evolution-year-num { font-family: var(--font-heading); font-size: 22px; line-height: 1; }
+        .evolution-year-label { font-size: 9px; opacity: 0.9; letter-spacing: 0.1em; margin-top: 2px; }
+        .evolution-title { font-family: var(--font-heading); font-size: 16px; font-weight: 700; text-align: center; }
+        .evolution-methods { background: var(--gray-50); border: 1px solid var(--gray-100); border-radius: var(--radius-md); padding: 16px; }
+        .evolution-method { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+        .evolution-method:last-child { margin-bottom: 0; }
+        .evolution-method-icon { width: 34px; height: 34px; background: #fff; border: 1px solid var(--gray-200); border-radius: 8px; }
+        .evolution-method-icon [data-lucide] { width: 17px; height: 17px; color: var(--ce-green-primary); }
+        .evolution-method-content h4 { font-size: 13px; font-weight: 600; margin: 0 0 3px; }
+        .evolution-method-content p { font-size: 12.5px; color: var(--gray-600); line-height: 1.5; }
+
         /* ============================================
-           CAREER PATHWAYS SECTION
+           3-YEAR JOURNEY + 7-7-3 MODEL
         ============================================ */
-        .career-pathways-section {
-            padding: 50px 50px;
-            background: white;
-        }
-        
-        .pathways-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .pathways-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        
-        .pathways-header h2 {
-            font-size: 36px;
-            font-weight: 800;
-            color: var(--um-dark-blue);
-            margin-bottom: 12px;
-        }
-        
-        .pathways-header p {
-            font-size: 16px;
-            color: var(--gray-600);
-        }
-        
-        .pathway-flow {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 40px;
-            align-items: center;
-            margin-bottom: 50px;
-            padding-bottom: 50px;
-            border-bottom: 1px solid var(--gray-200);
-        }
-        
-        .pathway-flow:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        
-        .pathway-source {
-            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-            border-radius: var(--radius-xl);
-            padding: 32px;
-            text-align: center;
-            border: 2px solid var(--ce-green-primary);
-        }
-        
-        .pathway-source-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 16px;
-            background: var(--ce-green-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .pathway-source-icon i {
-            width: 32px;
-            height: 32px;
-            color: white;
-        }
-        
-        .pathway-source h3 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--um-dark-blue);
-            margin-bottom: 8px;
-        }
-        
-        .pathway-source-count {
-            font-size: 14px;
-            color: var(--gray-600);
-            font-weight: 600;
-        }
-        
-        .pathway-arrow {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .pathway-arrow i {
-            width: 32px;
-            height: 32px;
-            color: var(--ce-green-primary);
-        }
-        
-        .pathway-arrow span {
-            font-size: 12px;
-            color: var(--gray-500);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .pathway-destinations {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-        }
-        
-        .pathway-destination {
-            background: white;
-            border-radius: var(--radius-md);
-            padding: 20px;
-            border: 2px solid var(--gray-200);
-            transition: all 0.3s ease;
-        }
-        
-        .pathway-destination:hover {
-            border-color: var(--ce-green-primary);
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
-        }
-        
-        .pathway-destination-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-        
-        .pathway-destination-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--gray-50);
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        
-        .pathway-destination-icon i {
-            width: 20px;
-            height: 20px;
-            color: var(--ce-green-primary);
-        }
-        
-        .pathway-destination h4 {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--um-dark-blue);
-        }
-        
-        .pathway-destination-examples {
-            font-size: 13px;
-            color: var(--gray-600);
-            line-height: 1.6;
-        }
-        
-        .pathway-destination-count {
-            font-size: 12px;
-            color: var(--gray-500);
-            font-weight: 600;
-            margin-top: 8px;
-        }
-        
+        .journey-visual { position: relative; padding: 10px 0 0; }
+        .journey-line { position: absolute; top: 50%; left: 5%; right: 5%; height: 2px; background: var(--ce-green-primary); opacity: 0.3; transform: translateY(-50%); z-index: 1; }
+        .journey-stages { display: grid; grid-template-columns: 1fr 1fr 1.4fr; gap: 20px; position: relative; z-index: 2; }
+        .journey-stage { background: #fff; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 22px 20px; box-shadow: var(--shadow-sm); position: relative; overflow: hidden; transition: box-shadow var(--transition-fast); }
+        .journey-stage:hover { box-shadow: var(--shadow-md); }
+        .journey-stage::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--ce-green-primary); }
+        .stage-year { display: inline-flex; align-items: center; gap: 6px; background: var(--ce-green-primary); color: #fff; padding: 4px 11px; border-radius: 20px; font-size: 11px; font-weight: 700; margin-bottom: 12px; }
+        .stage-year [data-lucide] { width: 13px; height: 13px; }
+        .stage-title { font-family: var(--font-heading); font-size: 17px; font-weight: 700; margin: 0 0 4px; }
+        .stage-subtitle { font-size: 10.5px; color: var(--ce-green-dark); font-weight: 700; margin: 0 0 10px; text-transform: uppercase; letter-spacing: 0.08em; }
+        .stage-content { font-size: 13px; color: var(--gray-600); line-height: 1.6; }
+        .stage-stats { display: flex; gap: 12px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--gray-100); }
+        .stage-stat { text-align: center; flex: 1; }
+        .stage-stat-value { font-family: var(--font-heading); font-size: 22px; font-weight: 700; color: var(--ce-green-primary); line-height: 1.1; }
+        .stage-stat-label { font-size: 10px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 3px; font-weight: 600; }
+        .journey-stage.year-3 { background: var(--um-dark-blue); border-color: var(--um-dark-blue); color: #fff; }
+        .journey-stage.year-3::before { background: var(--ce-green-light); }
+        .journey-stage.year-3 .stage-title { color: #fff; }
+        .journey-stage.year-3 .stage-subtitle { color: var(--ce-green-light); }
+        .journey-stage.year-3 .stage-content { color: rgba(255,255,255,0.8); }
+        .concentration-branches { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+        .branch { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; display: flex; align-items: center; gap: 9px; transition: background var(--transition-fast); }
+        .branch:hover { background: rgba(255,255,255,0.14); }
+        .branch-icon { width: 28px; height: 28px; background: rgba(16, 185, 129, 0.3); border-radius: 7px; }
+        .branch-icon [data-lucide] { width: 15px; height: 15px; color: var(--ce-green-light); }
+        .branch-name { font-size: 11.5px; font-weight: 600; color: #fff; line-height: 1.3; }
+
+        .semester-model { margin-top: 30px; padding-top: 26px; border-top: 1px solid var(--gray-100); }
+        .semester-model-header { text-align: center; margin-bottom: 22px; }
+        .semester-model-header h3 { font-family: var(--font-heading); font-size: 17px; font-weight: 700; margin: 0 0 4px; }
+        .semester-model-header p { font-size: 13px; color: var(--gray-500); }
+        .semester-visual { display: flex; gap: 10px; max-width: 860px; margin: 0 auto; position: relative; padding-bottom: 28px; }
+        .semester-visual::before { content: '\00D7  2 semesters = 1 year'; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); font-size: 12px; color: var(--gray-500); font-weight: 500; white-space: nowrap; }
+        .period-block { flex: 1; background: #fff; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 18px; box-shadow: var(--shadow-sm); text-align: center; }
+        .period-block.period-1, .period-block.period-2 { flex: 2.3; }
+        .period-block.period-3 { flex: 1; background: var(--ce-green-primary); border-color: var(--ce-green-primary); color: #fff; }
+        .period-weeks { display: inline-flex; align-items: center; gap: 5px; background: var(--gray-100); padding: 4px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 700; color: var(--um-dark-blue); margin-bottom: 10px; }
+        .period-block.period-3 .period-weeks { background: rgba(255,255,255,0.2); color: #fff; }
+        .period-title { font-family: var(--font-heading); font-size: 15px; font-weight: 700; margin: 0 0 10px; }
+        .period-block.period-3 .period-title { color: #fff; }
+        .period-content { display: flex; flex-direction: column; gap: 6px; }
+        .period-item { display: flex; align-items: center; justify-content: center; gap: 7px; padding: 7px 10px; background: var(--gray-50); border-radius: var(--radius-sm); font-size: 12.5px; color: var(--gray-600); }
+        .period-block.period-3 .period-item { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.92); }
+        .period-item [data-lucide] { width: 15px; height: 15px; color: var(--ce-green-primary); }
+        .period-block.period-3 .period-item [data-lucide] { color: #fff; }
+        .period-connector { display: flex; align-items: center; justify-content: center; color: var(--gray-300); font-size: 20px; }
+
+        /* ============================================
+           REAL-LIFE CHALLENGES
+        ============================================ */
+        .challenges-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .challenge-card { background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 22px 22px 22px 24px; position: relative; overflow: hidden; transition: box-shadow var(--transition-fast), border-color var(--transition-fast); }
+        .challenge-card:hover { box-shadow: var(--shadow-md); border-color: var(--gray-300); }
+        .challenge-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--ce-green-primary); }
+        .challenge-icon { width: 40px; height: 40px; background: var(--ce-green-primary); border-radius: 9px; margin-bottom: 14px; }
+        .challenge-icon [data-lucide] { width: 20px; height: 20px; color: #fff; }
+        .challenge-card h3 { font-size: 15px; font-weight: 600; margin: 0 0 8px; }
+        .challenge-card p { font-size: 13px; color: var(--gray-600); line-height: 1.6; }
+        .challenge-tag { display: inline-block; margin-top: 12px; padding: 3px 10px; background: var(--msp-ok-bg); border: 1px solid var(--msp-ok-bd); color: var(--msp-ok); font-size: 11px; font-weight: 600; border-radius: 20px; }
+
+        /* ============================================
+           CONCENTRATIONS
+        ============================================ */
+        .concentration-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        .concentration-card { background: #fff; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 22px; box-shadow: var(--shadow-sm); text-align: center; transition: box-shadow var(--transition-fast), border-color var(--transition-fast); }
+        .concentration-card:hover { box-shadow: var(--shadow-md); border-color: var(--gray-300); }
+        .concentration-icon { width: 52px; height: 52px; margin: 0 auto 14px; background: var(--ce-green-primary); border-radius: 50%; }
+        .concentration-icon [data-lucide] { width: 24px; height: 24px; color: #fff; }
+        .concentration-card h3 { font-size: 15px; font-weight: 600; margin: 0 0 6px; }
+        .concentration-count { font-family: var(--font-heading); font-size: 28px; font-weight: 700; color: var(--ce-green-primary); line-height: 1.1; }
+        .concentration-label { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+        .concentration-pathways { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--gray-100); }
+        .concentration-pathways h4 { font-size: 10px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 8px; }
+        .pathway-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; }
+        .pathway-tag { font-size: 11px; padding: 3px 9px; background: var(--gray-100); color: var(--gray-600); border-radius: 20px; }
+
+        /* ============================================
+           UM OFFICIAL LINKS
+        ============================================ */
+        .um-links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+        .um-link-card { background: #fff; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 18px 20px; display: flex; align-items: flex-start; gap: 14px; transition: box-shadow var(--transition-fast), border-color var(--transition-fast); text-decoration: none; color: var(--msp-g9); box-shadow: var(--shadow-sm); }
+        .um-link-card:hover { border-color: var(--gray-300); box-shadow: var(--shadow-md); color: var(--msp-g9); }
+        .um-link-card.featured { background: var(--um-dark-blue); border-color: var(--um-dark-blue); color: #fff; grid-column: span 2; }
+        .um-link-card.featured:hover { color: #fff; }
+        .um-link-icon { width: 40px; height: 40px; background: var(--gray-100); border-radius: 9px; }
+        .um-link-card.featured .um-link-icon { background: rgba(255,255,255,0.12); }
+        .um-link-icon [data-lucide] { width: 20px; height: 20px; color: var(--ce-green-primary); }
+        .um-link-card.featured .um-link-icon [data-lucide] { color: #fff; }
+        .um-link-content { flex: 1; min-width: 0; }
+        .um-link-title { font-family: var(--font-body); font-size: 14px; font-weight: 600; margin: 0 0 3px; }
+        .um-link-desc { font-size: 12.5px; color: var(--gray-500); line-height: 1.5; }
+        .um-link-card.featured .um-link-desc { color: rgba(255,255,255,0.7); }
+        .um-link-arrow { color: var(--gray-300); transition: all var(--transition-smooth); align-self: center; }
+        .um-link-card:hover .um-link-arrow { color: var(--ce-green-primary); transform: translateX(3px); }
+        .um-link-card.featured .um-link-arrow { color: rgba(255,255,255,0.5); }
+        .um-link-card.featured:hover .um-link-arrow { color: #fff; }
+        .um-link-arrow [data-lucide] { width: 18px; height: 18px; }
+
+        /* ============================================
+           CTA (navy card, like the hero)
+        ============================================ */
+        .cta-section { background: linear-gradient(135deg, var(--msp-navy) 0%, var(--msp-navy2) 40%, var(--msp-navy3) 100%); border-radius: var(--radius-xl); padding: 36px 32px; text-align: center; position: relative; overflow: hidden; color: #fff; box-shadow: 0 8px 32px rgba(1, 27, 60, 0.18), 0 2px 8px rgba(0, 0, 0, 0.08); }
+        .cta-content { position: relative; z-index: 1; }
+        .cta-section h2 { font-size: 24px; font-weight: 700; color: #fff; margin: 0 0 8px; }
+        .cta-section p { font-size: 13.5px; color: rgba(255,255,255,0.78); margin: 0 auto 20px; max-width: 48ch; }
+        .cta-buttons { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+
+        /* ============================================
+           UNIVERSITY MODAL (sits above the sidebar: kit z token)
+        ============================================ */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(1, 27, 60, 0.7); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: var(--msp-z-modal); display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background: #fff; border-radius: var(--radius-md); max-width: 550px; width: 100%; max-height: 90vh; overflow-y: auto; transform: scale(0.96) translateY(12px); transition: all 0.3s ease; box-shadow: var(--shadow-lg); }
+        .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
+        .uni-modal-header { padding: 24px 28px; background: var(--um-dark-blue); color: #fff; border-radius: var(--radius-md) var(--radius-md) 0 0; position: relative; }
+        .uni-modal-logo { width: 64px; height: 64px; background: #fff; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; padding: 8px; }
+        .uni-modal-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .uni-modal-name { font-family: var(--font-heading); font-size: 20px; font-weight: 700; margin: 0 0 6px; color: #fff; }
+        .uni-modal-location { display: flex; align-items: center; gap: 8px; font-size: 13px; opacity: 0.85; }
+        .uni-modal-location img { width: 20px; height: 14px; border-radius: 2px; }
+        .uni-modal-close { position: absolute; top: 16px; right: 16px; width: 34px; height: 34px; border: none; background: rgba(255,255,255,0.15); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s ease; }
+        .uni-modal-close:hover { background: rgba(255,255,255,0.25); }
+        .uni-modal-close [data-lucide] { width: 18px; height: 18px; color: #fff; }
+        .uni-modal-body { padding: 24px 28px; }
+        .uni-modal-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--msp-ok-bg); border: 1px solid var(--msp-ok-bd); color: var(--msp-ok); padding: 4px 11px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 14px; }
+        .uni-modal-description { font-size: 13.5px; color: var(--gray-600); line-height: 1.7; margin-bottom: 20px; }
+        .uni-modal-programmes { margin-bottom: 20px; }
+        .uni-modal-programmes h4 { font-size: 10px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 10px; }
+        .uni-programme-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .uni-programme-tag { padding: 5px 11px; background: var(--gray-100); color: var(--gray-700); border-radius: 20px; font-size: 12px; font-weight: 500; }
+
+        /* ---- Page footer: links the sidebar does not carry ---- */
+        .msp-footer .foot-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 6px; }
+        .msp-footer a { text-decoration: none; }
+        .msp-footer a:hover { text-decoration: underline; }
+        /* kit: .msp-content a (0,1,1) outranks .msp-btn-* colours, restore them */
+        .msp-content a.msp-btn-or, .msp-content a.msp-btn-navy, .msp-content a.msp-btn-or:hover, .msp-content a.msp-btn-navy:hover { color: #fff; }
+        .msp-content a.msp-btn-sky { color: var(--msp-inf); }
+        .msp-content a.msp-btn-gh { color: var(--msp-g5); }
+        .msp-content .uni-modal-header .uni-modal-name, .msp-content .um-link-card.featured .um-link-title { color: #fff; }
+
         /* ============================================
            RESPONSIVE
         ============================================ */
-        @media (max-width: 1024px) {
-            .journey-stages { grid-template-columns: 1fr 1fr; gap: 20px; }
-            .journey-line { display: none; }
-            .semester-visual { flex-wrap: wrap; }
-            .semester-visual::before { bottom: -40px; }
-            .hero-content { grid-template-columns: 1fr; text-align: center; }
-            .hero-stats-card { max-width: 400px; margin: 0 auto; }
-            .concentration-cards { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
-            .universities-grid { grid-template-columns: repeat(2, 1fr); }
-            .careers-grid { grid-template-columns: 1fr; }
-            .evolution-timeline { grid-template-columns: 1fr; gap: 40px; }
-            .evolution-timeline::before { display: none; }
-            .brightlands-grid { grid-template-columns: 1fr; }
-            .pathway-flow { grid-template-columns: 1fr; }
-            .pathway-arrow { transform: rotate(90deg); }
-            .pathway-destinations { grid-template-columns: 1fr; }
+        @media (max-width: 1100px) {
+            .universities-grid, .careers-grid, .concentration-cards, .brightlands-grid { grid-template-columns: repeat(2, 1fr); }
         }
-        
-        @media (max-width: 768px) {
-            header { padding: 0 20px; }
-            .header-nav { display: none; }
-            .hero { padding: 120px 20px 60px; }
-            .hero h1 { font-size: 32px; }
-            .main-content { padding: 60px 20px; }
-            .universities-section { padding: 60px 20px; margin: 0 -20px 60px; }
-            .hero-stat-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
-            .cta-section { padding: 40px 20px; }
-            .footer-content { grid-template-columns: 1fr; gap: 40px; }
-            .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
-            .journey-section { padding: 60px 20px; }
-            .journey-stages { grid-template-columns: 1fr; }
-            .concentration-branches { grid-template-columns: 1fr; }
+        @media (max-width: 900px) {
+            .hero-content { grid-template-columns: 1fr; }
+            .journey-stages { grid-template-columns: 1fr 1fr; gap: 16px; }
+            .journey-line { display: none; }
+            .evolution-timeline { grid-template-columns: 1fr; gap: 24px; }
+            .evolution-timeline::before { display: none; }
+            .pathway-flow { grid-template-columns: 1fr; gap: 16px; }
+            .pathway-arrow { transform: rotate(90deg); }
+        }
+        @media (max-width: 640px) {
+            .universities-section, .careers-section, .career-pathways-section, .five-rs-section,
+            .brightlands-section, .learning-evolution-section, .journey-section,
+            .challenges-section, .concentrations-section, .um-links-section { padding: 22px 16px; }
+            .universities-grid, .careers-grid, .concentration-cards, .brightlands-grid, .challenges-grid,
+            .pathway-destinations, .journey-stages, .concentration-branches { grid-template-columns: 1fr; }
+            .um-link-card.featured { grid-column: auto; }
             .semester-visual { flex-direction: column; }
             .period-block.period-1, .period-block.period-2, .period-block.period-3 { flex: none; }
-            .semester-visual::before { position: static; transform: none; margin-top: 20px; text-align: center; }
-            .five-rs-section { padding: 60px 20px; }
-            .circular-loop { width: 100%; max-width: 350px; height: 350px; }
-            .r-node { width: 70px; height: 70px; }
-            .r-node i { width: 24px; height: 24px; }
+            .period-connector { transform: rotate(90deg); }
+            .circular-loop { width: 100%; max-width: 330px; height: 330px; }
+            .r-node { width: 66px; height: 66px; }
+            .r-node [data-lucide] { width: 20px; height: 20px; }
             .r-node span { font-size: 10px; }
-            .learning-evolution-section { padding: 60px 20px; }
-            .brightlands-section { padding: 60px 20px; }
-            .career-pathways-section { padding: 60px 20px; }
+            .loop-center-icon { width: 36px; height: 36px; }
+            .cta-section { padding: 28px 18px; }
         }
     </style>
-    <link rel="stylesheet" href="ce-restyle.css">
 </head>
 <body>
-    <!-- Header -->
-    <header id="header">
-        <a href="index.html" class="logo">
-            <img src="assets/logos/ce-logo.png" alt="CE Logo" class="logo-img">
-            <div class="logo-text">
-                <h1>CE Alumni Network</h1>
-                <p>Faculty of Science and Engineering</p>
-            </div>
-        </a>
-        <nav class="header-nav">
-            <a href="index.html">Home</a>
-            <a href="community.html">Community</a>
-            <a href="considering-ce.html" class="active btn-cta">Considering CE?</a>
-        </nav>
-    </header>
-    
+    <main class="msp-main wide">
     <!-- Hero -->
-    <section class="hero">
-        <!-- Gradient orbs -->
-        <div class="gradient-orbs">
-            <div class="orb orb-1"></div>
-            <div class="orb orb-2"></div>
-            <div class="orb orb-3"></div>
-        </div>
-        
-        <!-- Subtle grid pattern -->
-        <div class="hero-grid"></div>
-        
-        <!-- Large background circular symbol -->
-        <div class="ce-symbol-bg">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 10 A40 40 0 0 1 85 65 L75 60 L90 75 L80 55 L70 60 A30 30 0 0 0 50 20 Z"/>
-                <path d="M85 65 A40 40 0 0 1 25 80 L30 70 L10 80 L25 90 L30 80 A30 30 0 0 0 75 65 Z"/>
-                <path d="M25 80 A40 40 0 0 1 50 10 L45 20 L60 5 L40 5 L45 15 A30 30 0 0 0 30 70 Z"/>
-            </svg>
-        </div>
-        
-        <!-- Flowing curved lines SVG -->
-        <svg class="flow-svg" viewBox="0 0 1200 800" preserveAspectRatio="none">
-            <defs>
-                <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#10B981;stop-opacity:0" />
-                    <stop offset="50%" style="stop-color:#10B981;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#14B8A6;stop-opacity:0" />
-                </linearGradient>
-            </defs>
-            <path class="flow-path flow-path-1" d="M0,200 Q300,100 600,250 T1200,200" />
-            <path class="flow-path flow-path-2" d="M0,400 Q400,300 700,450 T1200,380" />
-            <path class="flow-path flow-path-3" d="M0,600 Q350,500 650,620 T1200,550" />
-        </svg>
-        
-        <!-- Floating nodes -->
-        <div class="nodes-container">
-            <div class="node node-1"></div>
-            <div class="node node-2"></div>
-            <div class="node node-3"></div>
-            <div class="node node-4"></div>
-            <div class="node node-5"></div>
-            <div class="node node-6"></div>
-            <div class="node node-7"></div>
-            <div class="node node-8"></div>
-            <div class="node node-9"></div>
-            <div class="node node-10"></div>
-        </div>
-        
+    <section class="msp-hero hero">
         <div class="hero-content">
             <div class="hero-text">
                 <div class="hero-badge">
@@ -2484,18 +407,18 @@
                 </div>
                 <h1>Where Will <span>CE</span> Take You?</h1>
                 <p>Circular Engineering graduates are building sustainable futures at top universities and companies worldwide. See where they've gone &mdash; and where you could go.</p>
-                <div class="hero-buttons">
-                    <a href="https://www.maastrichtuniversity.nl/education/bachelor/programmes/circular-engineering" target="_blank" class="hero-cta">
+                <div class="hero-buttons msp-hero-actions">
+                    <a href="https://www.maastrichtuniversity.nl/education/bachelor/programmes/circular-engineering" target="_blank" rel="noopener" class="msp-btn msp-btn-or">
                         <i data-lucide="external-link"></i>
                         Explore the Programme
                     </a>
-                    <a href="https://www.maastrichtuniversity.nl/education/bachelor/programmes/circular-engineering/admission-and-enrolment" target="_blank" class="hero-cta-secondary">
+                    <a href="https://www.maastrichtuniversity.nl/education/bachelor/programmes/circular-engineering/admission-and-enrolment" target="_blank" rel="noopener" class="msp-btn msp-btn-sky">
                         <i data-lucide="file-text"></i>
                         Apply Now
                     </a>
                 </div>
             </div>
-            
+
             <div class="hero-stats-card">
                 <h3>CE Alumni at a Glance</h3>
                 <div class="hero-stat-grid" id="heroStatGrid">
@@ -2516,10 +439,7 @@
             <!-- Populated by JS -->
         </div>
     </section>
-    
-    <div class="main-content">
 
-    <div class="main-content">
                 <!-- Career Sectors -->
         <section class="careers-section">
             <div class="section-header">
@@ -2531,9 +451,6 @@
                 <!-- Populated by JS -->
             </div>
         </section>
-        
-
-    </div>
 
     <!-- Career Pathways Section -->
     <section class="career-pathways-section">
@@ -2742,7 +659,6 @@
             </div>
         </div>
     </section>
-    
 
     <!-- 5 Rs Circular Loop Section -->
     <section class="five-rs-section">
@@ -2792,7 +708,6 @@
             </div>
         </div>
     </section>
-    
 
         <!-- Brightlands Ecosystem Section -->
         <section class="brightlands-section">
@@ -2859,7 +774,6 @@
                 </div>
             </div>
         </section>
-        
 
     <!-- PBL/RBL Learning Evolution Section -->
     <section class="learning-evolution-section">
@@ -2968,9 +882,6 @@
             </div>
         </div>
     </section>
-    
-    <!-- Main Content -->
-    <div class="main-content">
 
     <!-- CE Journey Section -->
     <section class="journey-section">
@@ -3142,11 +1053,9 @@
             </div>
         </div>
     </section>
-    
 
-    <div class="main-content">
         <!-- Real-Life Challenges Section -->
-        <section class="challenges-section" style="padding: 50px 50px;">
+        <section class="challenges-section">
             <div class="section-header">
                 <h2>Real-Life Challenges You'll Tackle</h2>
                 <p>From day one, you'll work on actual engineering problems &mdash; not hypotheticals</p>
@@ -3203,10 +1112,6 @@
                 <!-- Populated by JS -->
             </div>
         </section>
-    </div>
-    
-
-    </div>
 
     <!-- UM Official Links Section -->
     <section class="um-links-section">
@@ -3306,27 +1211,26 @@
             </a>
         </div>
     </section>
-    
 
-        <!-- CTA -->
-        <section class="cta-section">
-            <div class="cta-content">
-                <h2>Ready to Close the Loop?</h2>
-                <p>Join the next generation of circular engineers shaping a sustainable future.</p>
-                <div class="cta-buttons">
-                    <a href="https://www.maastrichtuniversity.nl/education/bachelor/circular-engineering" target="_blank" class="btn btn-white">
-                        <i data-lucide="external-link"></i>
-                        Learn More About CE
-                    </a>
-                    <a href="https://www.maastrichtuniversity.nl/education/bachelor/circular-engineering/admission-requirements" target="_blank" class="btn btn-outline">
-                        <i data-lucide="file-text"></i>
-                        Admission Requirements
-                    </a>
-                </div>
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Ready to Close the Loop?</h2>
+            <p>Join the next generation of circular engineers shaping a sustainable future.</p>
+            <div class="cta-buttons">
+                <a href="https://www.maastrichtuniversity.nl/education/bachelor/circular-engineering" target="_blank" rel="noopener" class="msp-btn msp-btn-or msp-btn-lg">
+                    <i data-lucide="external-link"></i>
+                    Learn More About CE
+                </a>
+                <a href="https://www.maastrichtuniversity.nl/education/bachelor/circular-engineering/admission-requirements" target="_blank" rel="noopener" class="msp-btn msp-btn-sky msp-btn-lg">
+                    <i data-lucide="file-text"></i>
+                    Admission Requirements
+                </a>
             </div>
-        </section>
-    </div>
-    
+        </div>
+    </section>
+    </main>
+
     <!-- University Modal -->
     <div class="modal-overlay" id="universityModal">
 
@@ -3356,53 +1260,27 @@
                         <!-- Populated by JS -->
                     </div>
                 </div>
-                <a href="#" target="_blank" class="uni-modal-link" id="uniModalLink">
+                <a href="#" target="_blank" class="uni-modal-link msp-btn msp-btn-or" id="uniModalLink">
                     Visit University Website
                     <i data-lucide="external-link"></i>
                 </a>
             </div>
         </div>
     </div>
-    
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-brand">
-                <img src="assets/logos/ce-logo.png" alt="CE Logo" class="footer-logo">
-                <h3>CE Alumni Network</h3>
-                <p>Tracking the journeys of Circular Engineering graduates as they build sustainable solutions across the globe.</p>
-            </div>
-            
-            <div class="footer-links">
-                <h4>Quick Links</h4>
-                <a href="index.html">Home</a>
-                <a href="community.html">Community</a>
-                <a href="considering-ce.html">Considering CE?</a>
-            </div>
-            
-            <div class="footer-links">
-                <h4>Programme</h4>
-                <a href="https://www.maastrichtuniversity.nl/education/bachelor/circular-engineering" target="_blank">CE Homepage</a>
-                <a href="https://www.maastrichtuniversity.nl/about-um/faculties/science-and-engineering" target="_blank">FSE Faculty</a>
-                <a href="privacy.html">Privacy Policy</a>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2025 Maastricht University &middot; Faculty of Science and Engineering</p>
+
+    <footer class="msp-footer">
+        <div class="foot-links">
+            <a href="https://www.maastrichtuniversity.nl/education/bachelor/circular-engineering" target="_blank" rel="noopener">CE Homepage</a>
+            <a href="https://www.maastrichtuniversity.nl/about-um/faculties/science-and-engineering" target="_blank" rel="noopener">FSE Faculty</a>
+            <a href="privacy.html">Privacy Policy</a>
             <a href="mailto:fse-alumni@maastrichtuniversity.nl">fse-alumni@maastrichtuniversity.nl</a>
         </div>
+        &copy; 2025 Maastricht University &middot; Faculty of Science and Engineering
     </footer>
-    
+
     <script>
         lucide.createIcons();
-        
-        // Header scroll
-        const header = document.getElementById('header');
-        window.addEventListener('scroll', () => {
-            header.classList.toggle('scrolled', window.scrollY > 50);
-        });
-        
+
         // ==========================================
         // POPULATE FROM DATA.JS
         // ==========================================
@@ -3614,6 +1492,22 @@
         
         // Re-initialize icons
         lucide.createIcons();
+    </script>
+
+    <script src="assets/msp-ui/msp-shell.js"></script>
+    <script>
+        MSPShell.init({
+            title: 'CE Alumni Network',
+            subtitle: 'Circular Engineering<br>Maastricht University',
+            nav: [
+                { label: 'Home',            hint: 'The alumni dashboard',     href: 'index.html',          icon: 'globe' },
+                { label: 'Community',       hint: 'Stay connected',           href: 'community.html',      icon: 'users' },
+                { label: 'Considering CE?', hint: 'For prospective students', href: 'considering-ce.html', icon: 'gradcap' },
+                { divider: true },
+                { label: 'Privacy',         hint: 'How we handle your data',  href: 'privacy.html',        icon: 'shield' }
+            ],
+            footer: 'Aggregated, anonymised statistics. Individual alumni appear only with their consent.'
+        });
     </script>
 </body>
 </html>
