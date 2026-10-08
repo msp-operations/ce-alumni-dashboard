@@ -805,7 +805,7 @@ const CE_DATA = {
 
             // Full testimonial not yet added — link out to the published story for now.
             favoriteCoursesAtCE: null,
-            whyCircularEngineering: null,
+            whyCircularEngineering: "I wanted to study engineering but wasn't sure which path to take. Circular Engineering is perfect. In the first year the programme provides you with a strong foundation in mathematics, physics, chemical engineering and biotechnology. Only after your first year you choose a specialisation.",
             thesisTitle: null,
 
             quote: "I think of circularity in everything I do — CE taught me life cycle thinking and how to approach everything from a sustainability angle.",
