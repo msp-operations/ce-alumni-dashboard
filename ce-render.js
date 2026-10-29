@@ -8,9 +8,9 @@
  * This file runs synchronously; every element it writes to is parsed before it.
  *
  * Where this differs from the MSP site, it is because the programme is much
- * younger: 46 graduates over two cohorts rather than 1,527 over thirteen.
- * Ranked lists are short, most universities appear once, and one of the four
- * concentrations has no graduates yet. Those are stated rather than hidden.
+ * younger: 82 graduates over three cohorts rather than 1,527 over thirteen.
+ * Ranked lists are short and many universities appear once. That is stated
+ * rather than hidden.
  */
 
 (function () {
@@ -148,7 +148,9 @@
         }).join('');
 
         set('conc-lead', 'Every CE student picks one of four concentrations. ' +
-            cap(numWord(withGrads.length)) + ' of the four have produced graduates so far; the programme is young enough that the fourth has not yet.' +
+            (withGrads.length === D.concentrations.length
+                ? 'All four have produced graduates now; Sustainable Mechanical Engineering sent out its first class in 2026.'
+                : cap(numWord(withGrads.length)) + ' of the four have produced graduates so far; the programme is young enough that the fourth has not yet.') +
             (profiledScope ? ' The counts cover the ' + profiled + ' graduates' + profiledScope + '.' : ''));
     }
 
