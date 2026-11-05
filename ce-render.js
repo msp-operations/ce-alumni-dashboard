@@ -214,10 +214,10 @@
         }).join('');
 
         if (el('region-lead') && R.euregioOrigin != null) {
-            set('region-lead', R.euregioOrigin + ' of the ' + profiled +
-                ' graduates' + profiledScope + ' came from the Euregio Meuse-Rhine to begin with, ' +
+            set('region-lead', R.euregioOrigin + ' of the ' + R.euregioOriginKnown +
+                ' graduates whose origin we know came from Limburg, Belgium or Germany, ' +
                 R.euregioOriginPercent + '%. Of everyone who has graduated, ' +
-                R.euregioImpact + ' are still working or studying in the region.');
+                R.euregioImpact + ' are working or studying in the Euregio Meuse-Rhine.');
         }
     }
 
@@ -293,20 +293,19 @@
        ---------------------------------------------------------------- */
     var emp = D.employment;
     if (emp && el('status-bar')) {
-        var total = emp.studying + emp.working;
+        var total = emp.studying + emp.working + (emp.gapYear || 0);
+        var share = function (n) { return Math.round(n / total * 100); };
         el('status-bar').innerHTML =
             '<span style="width:' + (emp.studying / total * 100) + '%;background:var(--blue)"></span>' +
-            '<span style="width:' + (emp.working / total * 100) + '%;background:var(--accent)"></span>';
+            '<span style="width:' + (emp.working / total * 100) + '%;background:var(--accent)"></span>' +
+            '<span style="width:' + (emp.gapYear / total * 100) + '%;background:rgba(255,255,255,0.35)"></span>';
         el('status-key').innerHTML =
-            '<span><span class="split-swatch" style="background:var(--blue)"></span>' + emp.studying + ' studying</span>' +
-            '<span><span class="split-swatch" style="background:var(--accent)"></span>' + emp.working + ' working</span>';
-        set('status-title', emp.studying > emp.working
-            ? 'Most are still studying.'
-            : 'Most are already working.');
-        set('status-note', 'Of the ' + total + ' graduates' + profiledScope + ', ' +
-            Math.round(emp.studying / total * 100) + '% are in a master’s or doctorate and ' +
-            Math.round(emp.working / total * 100) + '% are in work. ' +
-            (profiledScope ? 'The class of 2026 graduated this summer; we are collecting where they went.' : ''));
+            '<span><span class="split-swatch" style="background:var(--blue)"></span>' + share(emp.studying) + '% master\u2019s</span>' +
+            '<span><span class="split-swatch" style="background:var(--accent)"></span>' + share(emp.working) + '% work</span>' +
+            '<span><span class="split-swatch" style="background:rgba(255,255,255,0.35)"></span>' + share(emp.gapYear) + '% gap year</span>';
+        set('status-title', 'Most go on to a master\u2019s.');
+        set('status-note', 'Of the ' + total + ' graduates whose next step we know, ' + share(emp.studying) +
+            '% went on to a master\u2019s, ' + share(emp.working) + '% into work and ' + share(emp.gapYear) + '% took a gap year.');
     }
 
     if (el('cohort-list') && years.length) {

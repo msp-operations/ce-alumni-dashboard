@@ -12,6 +12,11 @@
 // The 2024-2025 figures were kept as curated in September; the 2026 class was added on top.
 // Nov 2026: one 2025 graduate counted as a research intern in Maastricht started a master's
 // at EPFL in September 2026; moved from working/Maastricht to studying/Lausanne everywhere.
+// Nov 2026: next steps recounted graduate by graduate against the FSE master file: 58 master's,
+// 9 work, 7 gap year, 8 not known. "Working" used to hold everyone who was not in a master's.
+// A class of 2024 graduate at TU/e since Sep 2026 added; Leiden (2) and MCI Innsbruck (1), in
+// here since the first version, removed: no FSE file supports them. University counts now add
+// up to the 58 exactly.
 //
 // HOW TO UPDATE:
 // 1. Scroll to the section you need to update
@@ -45,7 +50,7 @@ const CE_DATA = {
         profiledAlumni: 82,        // All three classes now have destinations on file
         nationalities: 21,         // Number of different nationalities
         countriesLivingIn: 13,     // Countries where alumni currently live
-        universitiesAttended: 28,  // Master's universities attended (matches topUniversities)
+        universitiesAttended: 26,  // Master's universities attended (matches topUniversities)
         programmeStartYear: 2021,  // Year CE programme started
         firstGraduationYear: 2024  // Year of first graduating class
     },
@@ -145,12 +150,11 @@ const CE_DATA = {
     topUniversities: [
         { name: "TU Delft", count: 11, country: "Netherlands", logo: "tu-delft.png" },
         { name: "KTH Royal Institute of Technology", count: 8, country: "Sweden", logo: "kth-royal-institute-of-technology.png" },
-        { name: "Eindhoven University of Technology", count: 5, country: "Netherlands", logo: "eindhoven-university.png" },
+        { name: "Eindhoven University of Technology", count: 6, country: "Netherlands", logo: "eindhoven-university.png" },
         { name: "Wageningen University & Research", count: 3, country: "Netherlands", logo: "wageningen-university.png" },
         { name: "Technical University of Denmark", count: 3, country: "Denmark", logo: "technical-university-of-denmark.png" },
         { name: "Maastricht University", count: 2, country: "Netherlands", logo: "maastricht-university.png" },
         { name: "NOVA School of Business & Economics", count: 2, country: "Portugal", logo: "nova-logo.png" },
-        { name: "Leiden University", count: 2, country: "Netherlands", logo: "leiden-university.png" },
         { name: "Politecnico di Milano", count: 2, country: "Italy", logo: "politecnico-di-milano.png" },
         { name: "Imperial College London", count: 2, country: "United Kingdom", logo: "imperial-college-london.png" },
         { name: "KU Leuven", count: 2, country: "Belgium", logo: "ku-leuven.png" },
@@ -160,7 +164,6 @@ const CE_DATA = {
         { name: "University of Southern Denmark", count: 1, country: "Denmark", logo: "university-of-southern-denmark.png" },
         { name: "Instituto Superior Tecnico Lisboa", count: 1, country: "Portugal", logo: "instituto-superior-tecnico-lisboae.png" },
         { name: "Universite Libre de Bruxelles", count: 1, country: "Belgium", logo: "universite-libre-de-bruxelles.png" },
-        { name: "MCI - The Entrepreneurial School", count: 1, country: "Austria", logo: "mci.png" },
         { name: "Universidad Politecnica de Madrid", count: 1, country: "Spain", logo: "universidad-de-madrid.png" },
         { name: "University of Seoul", count: 1, country: "South Korea", logo: "University-of-Seoul.png" },
         { name: "University of Groningen", count: 1, country: "Netherlands", logo: "university-of-groningen.png" },
@@ -443,10 +446,9 @@ const CE_DATA = {
     mastersProgrammes: [
         { name: "Mechanical Engineering", count: 9 },
         { name: "Chemical Engineering for Energy and Environment", count: 5 },
-        { name: "Biotechnology", count: 3 },
+        { name: "Biotechnology", count: 2 },
         { name: "Environmental Engineering", count: 3 },
         { name: "Biobased Materials", count: 2 },
-        { name: "Industrial Ecology", count: 2 },
         { name: "Advanced Chemical Engineering", count: 2 },
         { name: "Electrical Engineering (pre-master)", count: 2 },
         { name: "Chemical Engineering and Biotechnology", count: 2 },
@@ -461,6 +463,7 @@ const CE_DATA = {
         { name: "Building Engineering for Sustainability", count: 1 },
         { name: "Sustainable and Circular Chemistry", count: 1 },
         { name: "Management of Technology", count: 1 },
+        { name: "Innovation Management", count: 1 },
         { name: "Marine Environment and Resources", count: 1 },
         { name: "Business Analytics", count: 1 },
         { name: "Automotive Engineering", count: 1 },
@@ -477,7 +480,7 @@ const CE_DATA = {
     // Update counts and cities list
     
     countriesLivingIn: [
-        { name: "Netherlands", code: "nl", count: 31, cities: ["Delft", "Maastricht", "Eindhoven", "Wageningen", "Utrecht", "Groningen", "Amsterdam", "Sittard"], coords: [52.1326, 5.2913] },
+        { name: "Netherlands", code: "nl", count: 33, cities: ["Delft", "Maastricht", "Eindhoven", "Wageningen", "Utrecht", "Groningen", "Amsterdam", "Sittard"], coords: [52.1326, 5.2913] },
         { name: "Sweden", code: "se", count: 8, cities: ["Stockholm"], coords: [59.3293, 18.0686] },
         { name: "Spain", code: "es", count: 5, cities: ["Madrid", "Barcelona", "Plentzia", "Murcia"], coords: [40.4637, -3.7492] },
         { name: "Portugal", code: "pt", count: 4, cities: ["Lisbon"], coords: [38.7223, -9.1393] },
@@ -550,20 +553,18 @@ const CE_DATA = {
     
     concentrationPathways: {
         "Sustainable Biotechnology": {
-            total: 13,
-            percentOfTrack: 65,  // 13 of 20 biotech grads pursuing Master's
+            total: 11,
+            percentOfTrack: 55,  // 11 of 20 biotech grads pursuing Master's
             color: "#10B981",
             universities: [
-                { name: "Wageningen University & Research", count: 3, percent: 23, programmes: ["Biotechnology", "Food Systems", "Environmental Management"] },
-                { name: "Maastricht University", count: 2, percent: 15, programmes: ["Biobased Materials"] },
-                { name: "Instituto Superior Tecnico Lisboa", count: 1, percent: 8, programmes: ["Biotechnology"] },
-                { name: "Universite Libre de Bruxelles", count: 1, percent: 8, programmes: ["Biochemistry & Molecular Biology"] },
-                { name: "MCI Innsbruck", count: 1, percent: 8, programmes: ["Biotechnology"] },
-                { name: "Leiden University", count: 1, percent: 8, programmes: ["Industrial Ecology"] },
-                { name: "IAAC Barcelona", count: 1, percent: 8, programmes: ["Ecological Buildings & Biocities"] },
-                { name: "EU-CONEXUS", count: 1, percent: 8, programmes: ["Marine Biology"] },
-                { name: "Universitat Politecnica de Catalunya", count: 1, percent: 8, programmes: ["Sustainable Energy Systems (with KTH)"] },
-                { name: "University of the Basque Country", count: 1, percent: 8, programmes: ["Marine Environment and Resources"] }
+                { name: "Wageningen University & Research", count: 3, percent: 27, programmes: ["Biotechnology", "Resilient Farming and Food Systems", "Urban Environmental Management"] },
+                { name: "Maastricht University", count: 2, percent: 18, programmes: ["Biobased Materials"] },
+                { name: "Instituto Superior Tecnico Lisboa", count: 1, percent: 9, programmes: ["Biotechnology"] },
+                { name: "Universite Libre de Bruxelles", count: 1, percent: 9, programmes: ["Biochemistry & Molecular Biology"] },
+                { name: "IAAC Barcelona", count: 1, percent: 9, programmes: ["Ecological Buildings & Biocities"] },
+                { name: "EU-CONEXUS", count: 1, percent: 9, programmes: ["Marine Biology"] },
+                { name: "Universitat Politecnica de Catalunya", count: 1, percent: 9, programmes: ["Sustainable Energy Systems (with KTH)"] },
+                { name: "University of the Basque Country", count: 1, percent: 9, programmes: ["Marine Environment and Resources"] }
             ]
         },
         "Circular Chemical Engineering": {
@@ -590,12 +591,11 @@ const CE_DATA = {
             percentOfTrack: 67,  // 12 of 18 physics grads pursuing Master's
             color: "#0EA5E9",
             universities: [
+                { name: "Eindhoven University of Technology", count: 4, percent: 33, programmes: ["Mechanical Engineering", "Electrical Engineering (pre-master)", "Innovation Management"] },
                 { name: "TU Delft", count: 3, percent: 25, programmes: ["Mechanical Engineering", "Environmental Engineering"] },
-                { name: "Eindhoven University of Technology", count: 3, percent: 25, programmes: ["Electrical Engineering (pre-master)", "Mechanical Engineering"] },
                 { name: "Technical University of Munich", count: 1, percent: 8, programmes: ["Automotive Engineering"] },
                 { name: "NOVA School of Business & Economics", count: 1, percent: 8, programmes: ["Business Analytics"] },
                 { name: "RWTH Aachen University", count: 1, percent: 8, programmes: ["Automation Engineering"] },
-                { name: "Leiden University", count: 1, percent: 8, programmes: ["Industrial Ecology"] },
                 { name: "University of Groningen", count: 1, percent: 8, programmes: ["Mechanical Engineering"] },
                 { name: "University of Liege", count: 1, percent: 8, programmes: ["Engineering Physics"] }
             ]
@@ -684,8 +684,9 @@ const CE_DATA = {
         limburgImpactPercent: 13,
 
         // Euregio Meuse-Rhine region (cross-border)
-        euregioOrigin: 33,
-        euregioOriginPercent: 40,
+        euregioOrigin: 33,               // Dutch Limburg, Belgium or Germany (the master file's rule), 76 known
+        euregioOriginKnown: 76,
+        euregioOriginPercent: 43,
         euregioImpact: 13,              // strict Euregio Meuse-Rhine (Leuven and Brussels not counted)
         euregioImpactPercent: 16,
 
@@ -694,8 +695,8 @@ const CE_DATA = {
         euregioRetentionPercent: 9,
 
         // Netherlands overall
-        stayInNetherlands: 35,
-        stayInNetherlandsPercent: 43
+        stayInNetherlands: 33,
+        stayInNetherlandsPercent: 40
     },
 
 
@@ -706,11 +707,12 @@ const CE_DATA = {
     
     employment: {
         // Class of 2026 added Oct 2026: 28 in a master's, 3 working or interning;
-        // 2 gap years and 4 unknown are left out of both.
-        // Nov 2026: one 2025 graduate moved from working to studying (EPFL).
-        studying: 59,
-        working: 17,
-        workingPercent: 21         // of all 82, as before
+        // Counted graduate by graduate against the master file, Nov 2026. Everyone's latest known step.
+        studying: 58,              // in a master's or pre-master
+        working: 9,
+        gapYear: 7,
+        notKnown: 8,
+        workingPercent: 12         // of the 74 whose next step we know
     },
 
     // Notable employers (for considering-ce page)
