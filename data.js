@@ -5,7 +5,7 @@
 //
 // ONE POPULATION: the 82 CE graduates of the classes of 2024, 2025 and 2026 (13 + 32 + 37).
 // The class of 2026 was folded in on 29 Oct 2026 from the FSE master file (graduation form,
-// 34 of 37 responded) and the AY25-26 diploma export. One graduate the old figures counted
+// 33 of 37 responded) and the AY25-26 diploma export. One graduate the old figures counted
 // in the class of 2025 graduated in 2026, so the 2025 class is 32 and the total 82, not 83.
 // Not every graduate answered every question: shares below are of all 82, so a section
 // can add up to less than 100% (e.g. 4 concentrations unknown, 6 locations unknown).
@@ -745,7 +745,7 @@ const CE_DATA = {
         degree: "Bachelor of Science",
         duration: "3 years",
         startYear: 2021,
-        website: "https://www.maastrichtuniversity.nl/education/bachelor/circular-engineering",
+        website: "https://www.maastrichtuniversity.nl/education/bachelor/programmes/circular-engineering",
         email: "fse-admissions@maastrichtuniversity.nl",
         alumniEmail: "fse-alumni@maastrichtuniversity.nl",
         
